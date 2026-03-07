@@ -26,8 +26,8 @@ export class Product {
   @Column({ name: 'category_id' })
   categoryId!: number;
 
-  @Column({ name: 'tags', nullable: true })
-  tags?: string;
+  @Column({ name: 'tags', type: 'text', array: true, nullable: true })
+  tags?: string[];
 
   @CreateDateColumn({
     name: 'created_at',
