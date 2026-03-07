@@ -67,10 +67,11 @@ import DbShutdownRepositoryModule from './shared/repository/shutdown/db-shutdown
           password,
           database,
           entities: [],
-          migrations: [`${process.cwd()}/resources/migrations/*.js`],
+          migrations: [`${process.cwd()}/dist/migrations/*.js`],
           migrationsRun: dbMigrations === 'true',
           synchronize: dbSynchronize === 'true',
           manualInitialization: process.env.ONLY_SWAGGER_SPEC === 'true',
+          logging: true,
         } as TypeOrmModuleOptions;
       },
       inject: [ConfigService],
