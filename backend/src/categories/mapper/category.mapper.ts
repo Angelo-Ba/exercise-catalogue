@@ -1,4 +1,4 @@
-import { Category } from 'src/shared/repository/category/entities/category.schema';
+import { Category } from 'src/shared/repository/categories/entities/category.schema';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 
 export default class CategoryMapper {

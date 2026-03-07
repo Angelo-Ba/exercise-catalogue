@@ -4,7 +4,7 @@ import { Repository, UpdateResult } from 'typeorm';
 import { Category } from './entities/category.schema';
 
 @Injectable()
-export default class CategorysRepository {
+export default class CategoriesRepository {
   constructor(
     @InjectRepository(Category) private entity: Repository<Category>,
   ) {}

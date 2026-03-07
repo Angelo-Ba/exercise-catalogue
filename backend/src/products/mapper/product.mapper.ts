@@ -1,5 +1,5 @@
-import { Category } from 'src/shared/repository/category/entities/category.schema';
-import { Product } from 'src/shared/repository/product/entities/product.schema';
+import { Category } from 'src/shared/repository/categories/entities/category.schema';
+import { Product } from 'src/shared/repository/products/entities/product.schema';
 import { CreateProductDto } from '../dto/create-product.dto';
 
 export default class ProductMapper {

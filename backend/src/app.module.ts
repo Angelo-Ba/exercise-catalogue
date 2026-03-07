@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { LoggerModule } from 'nestjs-pino';
-import { ProductModule } from './product/product.module';
-import { CategoryModule } from './category/category.module';
+import { ProductsModule } from './products/products.module';
+import { CategoriesModule } from './categories/categories.module';
 import DbShutdownRepositoryModule from './shared/repository/shutdown/db-shutdown.repository.module';
 
 @Module({
@@ -81,9 +81,9 @@ import DbShutdownRepositoryModule from './shared/repository/shutdown/db-shutdown
 
     DbShutdownRepositoryModule,
 
-    ProductModule,
+    ProductsModule,
 
-    CategoryModule,
+    CategoriesModule,
   ],
   controllers: [],
   providers: [],
