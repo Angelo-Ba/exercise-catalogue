@@ -1,0 +1,48 @@
+services:
+  mini-catalogue-backend:
+    container_name: mini-catalogue-backend
+    build:
+      context: ./backend
+    environment:
+      - NODE_ENV=production
+      - APP_ENV=docker
+      - DB_HOST=mini-catalogue-db-pg
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=catalogue
+    ports:
+      - "3000:3000"
+    networks:
+      - minicatnet
+    depends_on:
+      - mini-catalogue-db-pg
+
+  mini-catalogue-frontend:
+    container_name: mini-catalogue-frontend
+    build:
+      context: ./frontend/MiniCatalogue
+    ports:
+      - "4200:80"
+    networks:
+      - minicatnet
+    depends_on:
+      - mini-catalogue-backend
+
+  mini-catalogue-db-pg:
+    container_name: mini-catalogue-db-pg
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: catalogue
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - minicatnet
+    volumes:
+      - ${DB_DATA:-/var/docker_volumes/mini-catalogue-db-pg}:/var/lib/postgresql/data
+
+networks:
+  minicatnet:
+    driver: bridge
