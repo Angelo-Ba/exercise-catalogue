@@ -5,6 +5,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import DbShutdownRepositoryModule from './shared/repository/shutdown/db-shutdown.repository.module';
+import CommonModule from './common/common.module';
 
 @Module({
   imports: [
@@ -78,11 +79,9 @@ import DbShutdownRepositoryModule from './shared/repository/shutdown/db-shutdown
       },
       inject: [ConfigService],
     }),
-
+    CommonModule,
     DbShutdownRepositoryModule,
-
     ProductsModule,
-
     CategoriesModule,
   ],
   controllers: [],
