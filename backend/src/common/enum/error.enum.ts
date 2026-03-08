@@ -4,4 +4,5 @@ export enum ErrorEnum {
   INVALID_DATABASE_OBJECT = 'invalid_database_object',
   INVALID_ID = 'invalid_id',
   PRODUCT_NOT_FOUND = 'product_not_found',
+  CATEGORY_NOT_FOUND = 'category_not_found',
 }

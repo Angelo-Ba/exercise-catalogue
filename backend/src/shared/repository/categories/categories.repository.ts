@@ -34,9 +34,9 @@ export default class CategoriesRepository {
 
   async update(
     categoryId: number,
-    name: { name: string },
+    data: Partial<Category>,
   ): Promise<UpdateResult> {
-    return this.entity.update(categoryId, name);
+    return this.entity.update(categoryId, data);
   }
 
   async remove(category: Category): Promise<void> {

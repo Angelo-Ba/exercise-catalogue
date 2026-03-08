@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import CategoriesRepository from 'src/shared/repository/categories/categories.repository';
+import { Category } from 'src/shared/repository/categories/entities/category.schema';
+import { ErrorEnum } from 'src/common/enum/error.enum';
+import CategoryMapper from './mapper/category.mapper';
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  private readonly logger = new Logger(CategoriesService.name);
+  constructor(private readonly categoriesRepository: CategoriesRepository) {}
+
+  create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    return this.categoriesRepository.createAndSave({
+      name: createCategoryDto.name,
+    });
   }
 
-  findAll() {
-    return `This action returns all category`;
+  async findAll(): Promise<Category[]> {
+    return await this.categoriesRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number): Promise<Category> {
+    const category = await this.categoriesRepository.findById(id);
+    if (!category) {
+      this.logger.error(`Category with this id ${id} not found.`);
+      throw new BadRequestException(ErrorEnum.CATEGORY_NOT_FOUND);
+    }
+    return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(
+    id: number,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<void> {
+    const partialCategory = CategoryMapper.toEntity(updateCategoryDto);
+    await this.categoriesRepository.update(id, partialCategory);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number): Promise<void> {
+    const category = await this.categoriesRepository.findById(id);
+    if (!category) {
+      this.logger.error(`Category with this id ${id} not found.`);
+      throw new BadRequestException(ErrorEnum.CATEGORY_NOT_FOUND);
+    }
+    return this.categoriesRepository.remove(category);
   }
 }
