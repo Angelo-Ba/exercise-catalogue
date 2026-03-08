@@ -10,26 +10,28 @@ export class ProductsService {
   private readonly logger = new Logger(ProductsService.name);
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  create(createProductDto: ProductDto): Promise<Product> {
-    return this.productsRepository.createAndSave({
+  async create(createProductDto: ProductDto): Promise<ProductDto> {
+    const product = await this.productsRepository.createAndSave({
       name: createProductDto.name,
       price: createProductDto.price,
       categoryId: createProductDto.categoryId,
       tags: createProductDto.tags,
     });
+    return ProductMapper.toResponse(product);
   }
 
-  async findAll(): Promise<Product[]> {
-    return await this.productsRepository.findAll();
+  async findAll(): Promise<ProductDto[]> {
+    const res = await this.productsRepository.findAll();
+    return res.map((p) => ProductMapper.toResponse(p));
   }
 
-  async findOne(id: number): Promise<Product> {
+  async findOne(id: number): Promise<ProductDto> {
     const product = await this.productsRepository.findById(id);
     if (!product) {
       this.logger.error(`Product with this id ${id} not found.`);
       throw new BadRequestException(ErrorEnum.PRODUCT_NOT_FOUND);
     }
-    return product;
+    return ProductMapper.toResponse(product);
   }
 
   async update(id: number, updateProductDto: ProductDto): Promise<void> {

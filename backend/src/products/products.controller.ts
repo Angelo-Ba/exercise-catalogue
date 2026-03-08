@@ -9,33 +9,42 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductDto } from './dto/product.dto';
+import { OkResponse } from 'src/common/decorators/swagger/ok-response.decorator';
+import { OkResponseVoid } from 'src/common/decorators/swagger/ok-response-void.decorator';
 
 @Controller('product')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create(@Body() createProductDto: ProductDto) {
+  @OkResponse(ProductDto)
+  create(@Body() createProductDto: ProductDto): Promise<ProductDto> {
     return this.productsService.create(createProductDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<ProductDto[]> {
     return this.productsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @OkResponse(ProductDto)
+  findOne(@Param('id') id: string): Promise<ProductDto> {
     return this.productsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: ProductDto) {
+  @OkResponseVoid()
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDto: ProductDto,
+  ): Promise<void> {
     return this.productsService.update(+id, updateProductDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @OkResponseVoid()
+  remove(@Param('id') id: string): Promise<void> {
     return this.productsService.remove(+id);
   }
 }

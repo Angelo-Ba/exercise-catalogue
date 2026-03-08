@@ -10,23 +10,25 @@ export class CategoriesService {
   private readonly logger = new Logger(CategoriesService.name);
   constructor(private readonly categoriesRepository: CategoriesRepository) {}
 
-  create(createCategoryDto: CategoryDto): Promise<Category> {
-    return this.categoriesRepository.createAndSave({
+  async create(createCategoryDto: CategoryDto): Promise<CategoryDto> {
+    const category = await this.categoriesRepository.createAndSave({
       name: createCategoryDto.name,
     });
+    return CategoryMapper.toResponse(category);
   }
 
-  async findAll(): Promise<Category[]> {
-    return await this.categoriesRepository.findAll();
+  async findAll(): Promise<CategoryDto[]> {
+    const res = await this.categoriesRepository.findAll();
+    return res.map((c) => CategoryMapper.toResponse(c));
   }
 
-  async findOne(id: number): Promise<Category> {
+  async findOne(id: number): Promise<CategoryDto> {
     const category = await this.categoriesRepository.findById(id);
     if (!category) {
       this.logger.error(`Category with this id ${id} not found.`);
       throw new BadRequestException(ErrorEnum.CATEGORY_NOT_FOUND);
     }
-    return category;
+    return CategoryMapper.toResponse(category);
   }
 
   async update(id: number, updateCategoryDto: CategoryDto): Promise<void> {
