@@ -11,6 +11,7 @@ import { CategoriesService } from './categories.service';
 import { CategoryDto } from './dto/category.dto';
 import { OkResponseVoid } from 'src/common/decorators/swagger/ok-response-void.decorator';
 import { OkResponse } from 'src/common/decorators/swagger/ok-response.decorator';
+import { OkResponseArray } from 'src/common/decorators/swagger/ok-response-array.decorator';
 
 @Controller('category')
 export class CategoriesController {
@@ -22,7 +23,8 @@ export class CategoriesController {
     return this.categoriesService.create(createCategoryDto);
   }
 
-  @Get()
+  @Get('/list')
+  @OkResponseArray(CategoryDto)
   findAll(): Promise<CategoryDto[]> {
     return this.categoriesService.findAll();
   }

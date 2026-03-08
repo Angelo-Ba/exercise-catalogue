@@ -64,6 +64,9 @@ import { Category } from './shared/repository/categories/entities/category.schem
         const dbMigrations = configService.getOrThrow<string>(
           'DATABASE_MIGRATIONS',
         );
+
+        const localEnvForLoggingQuery = process.env.APP_ENV === 'local';
+
         return {
           type,
           host,
@@ -76,7 +79,7 @@ import { Category } from './shared/repository/categories/entities/category.schem
           migrationsRun: dbMigrations === 'true',
           synchronize: dbSynchronize === 'true',
           manualInitialization: process.env.ONLY_SWAGGER_SPEC === 'true',
-          logging: true,
+          logging: localEnvForLoggingQuery,
         } as TypeOrmModuleOptions;
       },
       inject: [ConfigService],
