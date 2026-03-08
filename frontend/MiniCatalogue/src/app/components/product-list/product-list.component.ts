@@ -24,6 +24,9 @@ export class ProductListComponent implements OnInit {
   search = signal('');
   categoryId = signal<number | null>(null);
   page = signal(1);
+  size = signal(10); // default a 10
+  sort = signal<'price' | 'created_at'>('created_at');
+  order = signal<'asc' | 'desc'>('desc');
   categories = signal<Category[]>([]);
 
   pagination = signal<{
@@ -64,8 +67,12 @@ export class ProductListComponent implements OnInit {
     const params = {
       search: this.search(),
       categoryId: this.categoryId(),
+      minPrice: null,
+      maxPrice: null,
+      sort: this.sort(),
+      order: this.order(),
       page: this.page(),
-      limit: 10,
+      size: this.size(),
     };
 
     this.productService.getProducts(params).subscribe({
@@ -101,5 +108,15 @@ export class ProductListComponent implements OnInit {
     if (page) {
       this.page.set(page); // L'effect() caricherà automaticamente i nuovi dati
     }
+  }
+
+  updateSize(newSize: number) {
+    this.size.set(newSize);
+    this.page.set(1);
+  }
+
+  onSizeChange(event: Event) {
+    const newSize = Number((event.target as HTMLSelectElement).value);
+    this.updateSize(newSize);
   }
 }

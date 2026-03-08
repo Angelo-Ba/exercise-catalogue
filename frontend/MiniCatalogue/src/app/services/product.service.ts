@@ -21,6 +21,7 @@ export class ProductService {
     if (filters.page) params = params.set('page', filters.page);
     if (filters.limit) params = params.set('limit', filters.limit);
     if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
+    if (filters.size) params = params.set('size', filters.size);
 
     return this.http
       .get<ApiResponse<PaginatedData>>(this.apiUrl + '/list', { params })
