@@ -33,12 +33,11 @@ Avvio locale del backend (senza Docker):
 - Installa le dipendenze:
   - cd backend
   - npm i
-  - Avvia il backend in modalità sviluppo:
-    - npm run build
-    - npm run start:dev
+- Avvia il backend in modalità sviluppo:
+  - npm run build
+  - npm run start:dev
 
 Il backend sarà disponibile su http://localhost:3000.
-Le migrazioni verranno eseguite automaticamente se DATABASE_MIGRATIONS=true in .env.
 
 Avvio locale del frontend (senza Docker):
 
@@ -49,6 +48,8 @@ Avvio locale del frontend (senza Docker):
 Il frontend sarà disponibile su http://localhost:4200.
 
 ## Struttura del progetto
+
+Si riesce a visualizzarla solo in modalità "code" o "raw" su github.
 
 exercise-catalogue/
 ├── backend/ # NestJS + Fastify + TypeORM
@@ -102,4 +103,5 @@ error | error
 ## Note
 
 - Le migrazioni sono gestite solo se DATABASE_SYNC=false.
+- Le migrazioni verranno eseguite automaticamente se DATABASE_MIGRATIONS=true in .env.
 - La versione dell’applicazione è letta da resources/version.
