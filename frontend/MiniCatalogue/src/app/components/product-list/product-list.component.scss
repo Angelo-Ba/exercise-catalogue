@@ -1,0 +1,127 @@
+// Variabili colore (Professional Palette)
+$primary: #2563eb;
+$bg-body: #f8fafc;
+$text-main: #1e293b;
+$border-color: #e2e8f0;
+$white: #ffffff;
+
+:host {
+  display: block;
+  padding: 2rem;
+  background-color: $bg-body;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: $text-main;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: $white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+// Barra Filtri
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+
+  input,
+  select {
+    padding: 0.6rem 1rem;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+  }
+
+  input {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+// Tabella
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+
+  th {
+    text-align: left;
+    background: #f1f5f9;
+    padding: 1rem;
+    font-weight: 600;
+    border-bottom: 2px solid $border-color;
+  }
+
+  td {
+    padding: 1rem;
+    border-bottom: 1px solid $border-color;
+  }
+
+  tr:hover {
+    background-color: #f8fafc;
+  }
+}
+
+// Paginazione
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid $border-color;
+
+  button {
+    padding: 0.5rem 1rem;
+    border: 1px solid $primary;
+    background: $white;
+    color: $primary;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+
+    &:disabled {
+      border-color: $border-color;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
+      background: $primary;
+      color: $white;
+    }
+  }
+}
+
+// Stato di Caricamento (Overlay opzionale)
+.loading-overlay {
+  opacity: 0.5;
+  pointer-events: none;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f8fafc;
+}
+.btn-primary {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}

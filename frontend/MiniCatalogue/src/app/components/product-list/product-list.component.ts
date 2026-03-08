@@ -11,6 +11,7 @@ import { CategoryService } from '../../services/category.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './product-list.component.html',
+  styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
   private productService = inject(ProductService);
@@ -113,10 +114,5 @@ export class ProductListComponent implements OnInit {
   updateSize(newSize: number) {
     this.size.set(newSize);
     this.page.set(1);
-  }
-
-  onSizeChange(event: Event) {
-    const newSize = Number((event.target as HTMLSelectElement).value);
-    this.updateSize(newSize);
   }
 }

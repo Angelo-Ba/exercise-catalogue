@@ -1,10 +1,13 @@
-<div class="container">
-  <!-- Filtri -->
-  <div class="filters">
-    <!-- Ricerca testuale -->
-    <input (input)="updateSearch($event)" placeholder="Cerca prodotto..." type="text" />
+<div class="container" [class.loading-overlay]="loading()">
+  <header
+    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px"
+  >
+    <h2>Catalogo Prodotti</h2>
+    <button class="btn-primary" routerLink="/products/new">+ Nuovo Prodotto</button>
+  </header>
 
-    <!-- Select Categorie -->
+  <div class="filters">
+    <input (input)="updateSearch($event)" placeholder="Cerca per nome..." type="text" />
     <select (change)="updateCategory($event)">
       <option value="">Tutte le categorie</option>
       @for (cat of categories(); track cat.id) {
@@ -13,64 +16,52 @@
     </select>
   </div>
 
-  <!-- Stati -->
-  @if (loading()) {
-    <p>Caricamento in corso...</p>
-  }
-  @if (error()) {
-    <p class="error">{{ error() }}</p>
+  @if (loading() && products().length === 0) {
+    <div class="loader">Caricamento prodotti...</div>
   }
 
-  <!-- Lista Prodotti -->
-  @if (!loading() && products().length > 0) {
+  <div class="table-responsive">
     <table>
       <thead>
         <tr>
           <th>Nome</th>
           <th>Prezzo</th>
-          <th>Data</th>
+          <th>Data Creazione</th>
         </tr>
       </thead>
       <tbody>
         @for (product of products(); track product.id) {
           <tr>
-            <td>{{ product.name }}</td>
+            <td>
+              <strong>{{ product.name }}</strong>
+            </td>
             <td>{{ product.price | currency: 'EUR' }}</td>
-            <td>{{ product.createdAt | date: 'short' }}</td>
+            <td>{{ product.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
           </tr>
         }
       </tbody>
     </table>
-  } @else if (!loading()) {
-    <p>Nessun prodotto trovato.</p>
-  }
-  <!-- Paginazione -->
+  </div>
+
   @if (pagination(); as pg) {
-    <div
-      class="pagination-controls"
-      style="margin-top: 20px; display: flex; gap: 10px; align-items: center"
-    >
-      <button [disabled]="!pg.prevPage || loading()" (click)="goToPage(pg.prevPage)">
-        &laquo; Precedente
-      </button>
+    <div class="pagination-controls">
+      <div class="btns">
+        <button [disabled]="!pg.prevPage || loading()" (click)="goToPage(pg.prevPage)">
+          Precedente
+        </button>
+        <button [disabled]="!pg.nextPage || loading()" (click)="goToPage(pg.nextPage)">
+          Successiva
+        </button>
+      </div>
 
-      <span
-        >Pagina <strong>{{ pg.currentPage }}</strong> di {{ pg.totalPages }}</span
-      >
+      <span class="info">Pagina {{ pg.currentPage }} di {{ pg.totalPages }}</span>
 
-      <button [disabled]="!pg.nextPage || loading()" (click)="goToPage(pg.nextPage)">
-        Successiva &raquo;
-      </button>
-
-      <small>(Totale prodotti: {{ total() }})</small>
-
-      <div class="pagination-settings">
-        <label>Prodotti per pagina:</label>
-        <select [value]="size()" (change)="onSizeChange($event)">
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
+      <div class="settings">
+        <select [ngModel]="size()" (ngModelChange)="updateSize($event)">
+          <option [ngValue]="5">5 / pag</option>
+          <option [ngValue]="10">10 / pag</option>
+          <option [ngValue]="20">20 / pag</option>
+          <option [ngValue]="50">50 / pag</option>
         </select>
       </div>
     </div>
