@@ -7,11 +7,12 @@ import { Category } from '../../models/category.model';
 import { CategoryService } from '../../services/category.service';
 import { RouterLink } from '@angular/router';
 import { ToastService } from '../../shared/service/toast.service';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ConfirmModalComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -34,6 +35,7 @@ export class ProductListComponent implements OnInit {
   sort = signal<'price' | 'created_at'>('created_at');
   order = signal<'asc' | 'desc'>('desc');
   categories = signal<Category[]>([]);
+  productToDelete = signal<Product | null>(null);
 
   pagination = signal<{
     totalPages: number;
@@ -118,15 +120,27 @@ export class ProductListComponent implements OnInit {
     this.page.set(1);
   }
 
-  onDelete(id: number) {
-    if (confirm('Sei sicuro di voler eliminare questo prodotto?')) {
-      this.productService.deleteProduct(id).subscribe({
+  onDelete(product: Product) {
+    this.productToDelete.set(product);
+  }
+
+  cancelDelete() {
+    this.productToDelete.set(null);
+  }
+
+  confirmDelete() {
+    const product = this.productToDelete();
+    if (product?.id) {
+      this.productService.deleteProduct(product.id).subscribe({
         next: () => {
-          // Ricarica la lista dopo l'eliminazione
-          this.loadProducts();
           this.toast.show('Prodotto eliminato con successo');
+          this.loadProducts();
+          this.productToDelete.set(null);
         },
-        error: () => this.toast.show("Errore durante l'eliminazione", 'error'),
+        error: () => {
+          this.toast.show("Errore durante l'eliminazione", 'error');
+          this.productToDelete.set(null);
+        },
       });
     }
   }
