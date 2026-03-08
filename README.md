@@ -105,3 +105,7 @@ error | error
 - Le migrazioni sono gestite solo se DATABASE_SYNC=false.
 - Le migrazioni verranno eseguite automaticamente se DATABASE_MIGRATIONS=true in .env.
 - La versione dell’applicazione è letta da resources/version.
+
+## Possibili miglioramenti
+
+- Per rendere l'applicazione pronta per il mercato internazionale, il prossimo step sarebbe l'integrazione di una libreria di i18n (come Transloco) per gestire le traduzioni dinamiche tramite Pipe, evitando stringhe hardcodate nei componenti del FE.
