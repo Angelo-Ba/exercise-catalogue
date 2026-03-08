@@ -33,10 +33,9 @@ Avvio locale del backend (senza Docker):
 - Installa le dipendenze:
   - cd backend
   - npm i
-
-Avvia il backend in modalità sviluppo:
-
-- npm run start:dev
+  - Avvia il backend in modalità sviluppo:
+    - npm run build
+    - npm run start:dev
 
 Il backend sarà disponibile su http://localhost:3000.
 Le migrazioni verranno eseguite automaticamente se DATABASE_MIGRATIONS=true in .env.
