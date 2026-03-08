@@ -66,10 +66,13 @@ export default class ProductsRepository {
     }
 
     if (query.sort) {
-      qb.orderBy(
-        `product.${query.sort}`,
-        (query.order?.toUpperCase() as 'ASC' | 'DESC') || 'ASC',
-      );
+      const sortProperty =
+        query.sort === 'created_at' ? 'createdAt' : query.sort;
+      const orderDirection =
+        (query.order?.toUpperCase() as 'ASC' | 'DESC') || 'DESC';
+      qb.orderBy(`product."${sortProperty}"`, orderDirection);
+    } else {
+      qb.orderBy('product."createdAt"', 'DESC');
     }
     const page = query.page ?? 1;
     const size = query.size ?? 10;

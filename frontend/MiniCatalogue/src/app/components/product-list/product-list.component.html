@@ -14,6 +14,18 @@
         <option [value]="cat.id">{{ cat.name }}</option>
       }
     </select>
+    <input
+      type="number"
+      placeholder="Min €"
+      (input)="minPrice.set($any($event.target).value || null); page.set(1)"
+      style="width: 80px"
+    />
+    <input
+      type="number"
+      placeholder="Max €"
+      (input)="maxPrice.set($any($event.target).value || null); page.set(1)"
+      style="width: 80px"
+    />
   </div>
 
   @if (loading() && products().length === 0) {
@@ -25,20 +37,26 @@
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Nome</th>
           <th>Categoria</th>
-          <th>Prezzo</th>
+          <th (click)="toggleSort('price')" style="cursor: pointer">
+            Prezzo
+            @if (sort() === 'price') {
+              {{ order() === 'asc' ? '↑' : '↓' }}
+            }
+          </th>
           <th>Tags</th>
-          <th>Creato il</th>
+          <th (click)="toggleSort('created_at')" style="cursor: pointer">
+            Creato il
+            @if (sort() === 'created_at') {
+              {{ order() === 'asc' ? '↑' : '↓' }}
+            }
+          </th>
           <th style="text-align: center">Azioni</th>
         </tr>
       </thead>
       <tbody>
         @for (product of products(); track product.id) {
           <tr>
-            <td>
-              <strong>{{ product.name }}</strong>
-            </td>
             <td>
               <strong>{{ product.name }}</strong>
             </td>

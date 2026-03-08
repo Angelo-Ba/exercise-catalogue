@@ -27,6 +27,8 @@ export class ProductListComponent implements OnInit {
   categoryId = signal<number | null>(null);
   page = signal(1);
   size = signal(10); // default a 10
+  minPrice = signal<number | null>(null);
+  maxPrice = signal<number | null>(null);
   sort = signal<'price' | 'created_at'>('created_at');
   order = signal<'asc' | 'desc'>('desc');
   categories = signal<Category[]>([]);
@@ -66,8 +68,8 @@ export class ProductListComponent implements OnInit {
     const params = {
       search: this.search(),
       categoryId: this.categoryId(),
-      minPrice: null,
-      maxPrice: null,
+      minPrice: this.minPrice(),
+      maxPrice: this.maxPrice(),
       sort: this.sort(),
       order: this.order(),
       page: this.page(),
@@ -130,5 +132,15 @@ export class ProductListComponent implements OnInit {
     if (!id) return 'N/A';
     const category = this.categories().find((c) => c.id === id);
     return category ? category.name : `Cat. ${id}`;
+  }
+
+  toggleSort(field: 'price' | 'created_at') {
+    if (this.sort() === field) {
+      this.order.set(this.order() === 'asc' ? 'desc' : 'asc');
+    } else {
+      this.sort.set(field);
+      this.order.set('desc');
+    }
+    this.page.set(1);
   }
 }
