@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Category } from '../../models/category.model';
 import { CategoryService } from '../../services/category.service';
 import { RouterLink } from '@angular/router';
+import { ToastService } from '../../shared/service/toast.service';
 
 @Component({
   selector: 'app-product-list',
@@ -17,6 +18,7 @@ import { RouterLink } from '@angular/router';
 export class ProductListComponent implements OnInit {
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
+  private toast = inject(ToastService);
 
   products = signal<Product[]>([]);
   total = signal(0);
@@ -122,8 +124,9 @@ export class ProductListComponent implements OnInit {
         next: () => {
           // Ricarica la lista dopo l'eliminazione
           this.loadProducts();
+          this.toast.show('Prodotto eliminato con successo');
         },
-        error: () => alert("Errore durante l' eliminazione"),
+        error: () => this.toast.show("Errore durante l'eliminazione", 'error'),
       });
     }
   }

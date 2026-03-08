@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category.model';
+import { ToastService } from '../../shared/service/toast.service';
 
 @Component({
   selector: 'app-product-form',
@@ -19,12 +20,14 @@ export class ProductFormComponent implements OnInit {
   private categoryService = inject(CategoryService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private toast = inject(ToastService);
 
   productForm: FormGroup;
   categories = signal<Category[]>([]);
   isEditMode = signal(false);
   productId = signal<number | null>(null);
   loading = signal(false);
+  error = signal<string | null>(null);
 
   constructor() {
     this.productForm = this.fb.group({
@@ -67,9 +70,13 @@ export class ProductFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.productForm.invalid) return;
+    if (this.productForm.invalid) {
+      this.productForm.markAllAsTouched(); // Forza la visualizzazione dei bordi rossi
+      return;
+    }
 
     this.loading.set(true);
+    this.error.set(null);
     const formValue = this.productForm.value;
 
     // Trasforma la stringa "elettronica, nuovo" in array ["elettronica", "nuovo"]
@@ -92,10 +99,18 @@ export class ProductFormComponent implements OnInit {
     request.subscribe({
       next: () => {
         this.loading.set(false);
+        this.toast.show(this.isEditMode() ? 'Prodotto aggiornato!' : 'Prodotto creato!');
         this.router.navigate(['/products']);
       },
       error: (err) => {
         this.loading.set(false);
+        this.toast.show('Errore durante il salvataggio', 'error');
+        const backendMessage = err.error?.message;
+        this.error.set(
+          Array.isArray(backendMessage)
+            ? backendMessage.join(', ')
+            : backendMessage || 'Errore di comunicazione con il server',
+        );
         console.error('Errore durante il salvataggio', err);
       },
     });

@@ -1,16 +1,41 @@
 <div class="form-container">
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  <!-- Loader di caricamento -->
+  @if (loading()) {
+    <div class="loader-overlay">Salvataggio in corso...</div>
+  }
   <h2>{{ isEditMode() ? 'Modifica' : 'Crea Nuovo' }} Prodotto</h2>
 
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <div class="field">
       <label>Nome Prodotto *</label>
-      <input type="text" formControlName="name" required="true" />
+      <input
+        type="text"
+        formControlName="name"
+        [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+      />
+      @if (productForm.get('name')?.invalid && productForm.get('name')?.touched) {
+        <small class="error-text">Il nome è obbligatorio (almeno 3 caratteri).</small>
+      }
     </div>
 
     <div class="row" style="display: flex; gap: 15px">
       <div class="field" style="flex: 1">
-        <label>Prezzo (€)</label>
-        <input type="number" formControlName="price" step="0.01" />
+        <label>Prezzo (€) *</label>
+        <input
+          type="number"
+          formControlName="price"
+          step="0.01"
+          [class.is-invalid]="
+            productForm.get('price')?.invalid && productForm.get('price')?.touched
+          "
+        />
+        @if (productForm.get('price')?.invalid && productForm.get('price')?.touched) {
+          <small class="error-text">Il prezzo deve essere maggiore o uguale a 0.</small>
+        }
       </div>
 
       <div class="field" style="flex: 1">
