@@ -30,7 +30,7 @@ export class ProductFormComponent implements OnInit {
     this.productForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       price: [0, [Validators.required, Validators.min(0)]], // Validazione prezzo >= 0
-      categoryId: [null, [Validators.required]],
+      categoryId: [],
       tags: [[]], // Gestibile come stringa separata da virgole per semplicità
     });
   }
@@ -50,9 +50,18 @@ export class ProductFormComponent implements OnInit {
 
   loadProductForEdit(id: number) {
     this.productService.getProductById(id).subscribe((product) => {
+      console.log('Dati ricevuti nel componente:', product);
+
+      if (!product) {
+        console.error('Il prodotto è undefined!');
+        return;
+      }
+
       this.productForm.patchValue({
-        ...product,
-        tags: Array.isArray(product.tags) ? product.tags.join(', ') : product.tags,
+        name: product.name,
+        price: product.price,
+        categoryId: product.categoryId,
+        tags: Array.isArray(product.tags) ? product.tags.join(', ') : product.tags || '',
       });
     });
   }
@@ -66,6 +75,7 @@ export class ProductFormComponent implements OnInit {
     // Trasforma la stringa "elettronica, nuovo" in array ["elettronica", "nuovo"]
     const productData = {
       ...formValue,
+      categoryId: formValue.categoryId ? Number(formValue.categoryId) : null,
       tags:
         typeof formValue.tags === 'string'
           ? formValue.tags

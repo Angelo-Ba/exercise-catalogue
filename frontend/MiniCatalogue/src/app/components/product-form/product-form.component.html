@@ -4,17 +4,17 @@
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <div class="field">
       <label>Nome Prodotto *</label>
-      <input type="text" formControlName="name" />
+      <input type="text" formControlName="name" required="true" />
     </div>
 
     <div class="row" style="display: flex; gap: 15px">
       <div class="field" style="flex: 1">
-        <label>Prezzo (€) *</label>
+        <label>Prezzo (€)</label>
         <input type="number" formControlName="price" step="0.01" />
       </div>
 
       <div class="field" style="flex: 1">
-        <label>Categoria *</label>
+        <label>Categoria</label>
         <select formControlName="categoryId">
           <option [ngValue]="null">Seleziona...</option>
           @for (cat of categories(); track cat.id) {

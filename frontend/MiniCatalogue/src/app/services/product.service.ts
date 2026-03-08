@@ -29,7 +29,11 @@ export class ProductService {
   }
 
   getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map((response) => {
+        return response.data;
+      }),
+    );
   }
 
   createProduct(product: Product): Observable<Product> {
