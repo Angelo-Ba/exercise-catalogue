@@ -44,12 +44,13 @@
                   class="btn-icon edit"
                   [routerLink]="['/products/edit', product.id]"
                   title="Modifica"
-                ></button>
-                <button
-                  class="btn-icon delete"
-                  (click)="onDelete(product.id)"
-                  title="Elimina"
-                ></button>
+                >
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+
+                <button class="btn-icon delete" (click)="onDelete(product.id!)" title="Elimina">
+                  <i class="bi bi-trash3-fill text-danger"></i>
+                </button>
               </div>
             </td>
           </tr>

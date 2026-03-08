@@ -114,8 +114,7 @@ export class ProductListComponent implements OnInit {
     this.page.set(1);
   }
 
-  onDelete(id: number | undefined) {
-    if (!id) return;
+  onDelete(id: number) {
     if (confirm('Sei sicuro di voler eliminare questo prodotto?')) {
       this.productService.deleteProduct(id).subscribe({
         next: () => {
