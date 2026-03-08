@@ -1,17 +1,16 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import ProductsRepository from 'src/shared/repository/products/products.repository';
 import { Product } from 'src/shared/repository/products/entities/product.schema';
 import { ErrorEnum } from 'src/common/enum/error.enum';
 import ProductMapper from './mapper/product.mapper';
+import { ProductDto } from './dto/product.dto';
 
 @Injectable()
 export class ProductsService {
   private readonly logger = new Logger(ProductsService.name);
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  create(createProductDto: CreateProductDto): Promise<Product> {
+  create(createProductDto: ProductDto): Promise<Product> {
     return this.productsRepository.createAndSave({
       name: createProductDto.name,
       price: createProductDto.price,
@@ -33,7 +32,7 @@ export class ProductsService {
     return product;
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto): Promise<void> {
+  async update(id: number, updateProductDto: ProductDto): Promise<void> {
     const partialProduct = ProductMapper.toEntity(updateProductDto);
     await this.productsRepository.update(id, partialProduct);
   }

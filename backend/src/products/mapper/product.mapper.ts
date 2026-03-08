@@ -1,8 +1,8 @@
 import { Product } from 'src/shared/repository/products/entities/product.schema';
-import { UpdateProductDto } from '../dto/update-product.dto';
+import { ProductDto } from '../dto/product.dto';
 
 export default class ProductMapper {
-  static toResponse(result: Product): UpdateProductDto {
+  static toResponse(result: Product): ProductDto {
     return {
       id: result.id,
       name: result.name,
@@ -13,7 +13,7 @@ export default class ProductMapper {
     };
   }
 
-  static toEntity(result: UpdateProductDto): Partial<Product> {
+  static toEntity(result: ProductDto): Partial<Product> {
     return {
       id: result.id,
       name: result.name,

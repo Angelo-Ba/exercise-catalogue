@@ -1,7 +1,8 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
-export class CreateCategoryDto {
+export class CategoryDto {
   @IsNumber()
-  id!: number;
+  @IsOptional()
+  id?: number;
 
   @IsString()
   @IsOptional()

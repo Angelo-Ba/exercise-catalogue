@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CategoryDto } from './dto/category.dto';
 import CategoriesRepository from 'src/shared/repository/categories/categories.repository';
 import { Category } from 'src/shared/repository/categories/entities/category.schema';
 import { ErrorEnum } from 'src/common/enum/error.enum';
@@ -11,7 +10,7 @@ export class CategoriesService {
   private readonly logger = new Logger(CategoriesService.name);
   constructor(private readonly categoriesRepository: CategoriesRepository) {}
 
-  create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+  create(createCategoryDto: CategoryDto): Promise<Category> {
     return this.categoriesRepository.createAndSave({
       name: createCategoryDto.name,
     });
@@ -30,10 +29,7 @@ export class CategoriesService {
     return category;
   }
 
-  async update(
-    id: number,
-    updateCategoryDto: UpdateCategoryDto,
-  ): Promise<void> {
+  async update(id: number, updateCategoryDto: CategoryDto): Promise<void> {
     const partialCategory = CategoryMapper.toEntity(updateCategoryDto);
     await this.categoriesRepository.update(id, partialCategory);
   }
