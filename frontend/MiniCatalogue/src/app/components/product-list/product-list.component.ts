@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
 import { FormsModule } from '@angular/forms';
+import { Category } from '../../models/category.model';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-product-list',
@@ -12,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProductListComponent implements OnInit {
   private productService = inject(ProductService);
+  private categoryService = inject(CategoryService);
+
   products = signal<Product[]>([]);
   total = signal(0);
   loading = signal(false);
@@ -20,6 +24,7 @@ export class ProductListComponent implements OnInit {
   search = signal('');
   categoryId = signal<number | null>(null);
   page = signal(1);
+  categories = signal<Category[]>([]);
 
   constructor() {
     // Ogni volta che i filtri cambiano, ricarica i dati
@@ -31,7 +36,19 @@ export class ProductListComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Carica le categorie SOLO una volta all'avvio
+    this.categoryService.getCategories().subscribe({
+      next: (data) => {
+        console.log('Categorie caricate:', data); // Debug per il colloquio
+        this.categories.set(data);
+      },
+      error: (err) => {
+        console.error(err);
+        this.error.set('Errore nel caricamento categorie');
+      },
+    });
+  }
 
   loadProducts() {
     this.loading.set(true);
@@ -63,5 +80,12 @@ export class ProductListComponent implements OnInit {
     const value = (event.target as HTMLInputElement).value;
     this.search.set(value);
     this.page.set(1); // Reset pagina alla ricerca
+  }
+
+  // Metodo per gestire il cambio categoria dalla select
+  updateCategory(event: Event) {
+    const value = (event.target as HTMLSelectElement).value;
+    this.categoryId.set(value ? Number(value) : null);
+    this.page.set(1); // Reset pagina al cambio filtro
   }
 }
