@@ -27,6 +27,7 @@
           <th>Nome</th>
           <th>Prezzo</th>
           <th>Data Creazione</th>
+          <th style="text-align: center">Azioni</th>
         </tr>
       </thead>
       <tbody>
@@ -37,6 +38,20 @@
             </td>
             <td>{{ product.price | currency: 'EUR' }}</td>
             <td>{{ product.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td style="text-align: center">
+              <div class="action-buttons">
+                <button
+                  class="btn-icon edit"
+                  [routerLink]="['/products/edit', product.id]"
+                  title="Modifica"
+                ></button>
+                <button
+                  class="btn-icon delete"
+                  (click)="onDelete(product.id)"
+                  title="Elimina"
+                ></button>
+              </div>
+            </td>
           </tr>
         }
       </tbody>

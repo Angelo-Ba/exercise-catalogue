@@ -5,11 +5,12 @@ import { Product } from '../../models/product.model';
 import { FormsModule } from '@angular/forms';
 import { Category } from '../../models/category.model';
 import { CategoryService } from '../../services/category.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -39,12 +40,9 @@ export class ProductListComponent implements OnInit {
 
   constructor() {
     // Ogni volta che i filtri cambiano, ricarica i dati
-    effect(
-      () => {
-        this.loadProducts();
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.loadProducts();
+    });
   }
 
   ngOnInit() {
@@ -114,5 +112,18 @@ export class ProductListComponent implements OnInit {
   updateSize(newSize: number) {
     this.size.set(newSize);
     this.page.set(1);
+  }
+
+  onDelete(id: number | undefined) {
+    if (!id) return;
+    if (confirm('Sei sicuro di voler eliminare questo prodotto?')) {
+      this.productService.deleteProduct(id).subscribe({
+        next: () => {
+          // Ricarica la lista dopo l'eliminazione
+          this.loadProducts();
+        },
+        error: () => alert("Errore durante l' eliminazione"),
+      });
+    }
   }
 }
