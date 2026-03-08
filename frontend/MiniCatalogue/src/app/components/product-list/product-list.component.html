@@ -44,4 +44,25 @@
   } @else if (!loading()) {
     <p>Nessun prodotto trovato.</p>
   }
+  <!-- Paginazione -->
+  @if (pagination(); as pg) {
+    <div
+      class="pagination-controls"
+      style="margin-top: 20px; display: flex; gap: 10px; align-items: center"
+    >
+      <button [disabled]="!pg.prevPage || loading()" (click)="goToPage(pg.prevPage)">
+        &laquo; Precedente
+      </button>
+
+      <span
+        >Pagina <strong>{{ pg.currentPage }}</strong> di {{ pg.totalPages }}</span
+      >
+
+      <button [disabled]="!pg.nextPage || loading()" (click)="goToPage(pg.nextPage)">
+        Successiva &raquo;
+      </button>
+
+      <small>(Totale prodotti: {{ total() }})</small>
+    </div>
+  }
 </div>

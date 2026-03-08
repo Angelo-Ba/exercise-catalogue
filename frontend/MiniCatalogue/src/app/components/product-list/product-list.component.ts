@@ -26,6 +26,13 @@ export class ProductListComponent implements OnInit {
   page = signal(1);
   categories = signal<Category[]>([]);
 
+  pagination = signal<{
+    totalPages: number;
+    currentPage: number;
+    nextPage: number | null;
+    prevPage: number | null;
+  } | null>(null);
+
   constructor() {
     // Ogni volta che i filtri cambiano, ricarica i dati
     effect(
@@ -65,6 +72,7 @@ export class ProductListComponent implements OnInit {
       next: (res) => {
         this.products.set(res.items);
         this.total.set(res.pagination.totalRecords);
+        this.pagination.set(res.pagination);
         this.loading.set(false);
       },
       error: (err) => {
@@ -87,5 +95,11 @@ export class ProductListComponent implements OnInit {
     const value = (event.target as HTMLSelectElement).value;
     this.categoryId.set(value ? Number(value) : null);
     this.page.set(1); // Reset pagina al cambio filtro
+  }
+
+  goToPage(page: number | null) {
+    if (page) {
+      this.page.set(page); // L'effect() caricherà automaticamente i nuovi dati
+    }
   }
 }
