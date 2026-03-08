@@ -21,7 +21,7 @@ Endpoint:
 
 - Backend: http://localhost:3000
 - Frontend: http://localhost:4200
-- PostgreSQL: localhost:5432 (utente: postgres, password: postgres, DB: catologue)
+- PostgreSQL: localhost:5432 (utente: postgres, password: postgres, DB: catalogue)
 
 Nota: le migrazioni PostgreSQL vengono eseguite automaticamente all’avvio del backend.
 Swagger disponibile su: http://localhost:3000/api
@@ -79,6 +79,10 @@ Creare una nuova migrazione:
 
 Swagger API: http://localhost:3000/api
 
+Visualizzare i log del backend (Docker):
+
+- docker compose logs -f mini-catalogue-backend
+
 ## Variabili d'ambiente
 
 - Utilizzare process.env solo in main.ts e app.module.ts:
@@ -105,6 +109,9 @@ error | error
 - Le migrazioni sono gestite solo se DATABASE_SYNC=false.
 - Le migrazioni verranno eseguite automaticamente se DATABASE_MIGRATIONS=true in .env.
 - La versione dell’applicazione è letta da resources/version.
+- **Frontend Reactive**: Sviluppato con **Angular Signals** per una gestione dello stato moderna e performante, minimizzando i cicli di change detection.
+- **Backend High Performance**: Utilizzo di **Fastify** come adapter per NestJS per garantire maggiore velocità rispetto al default (Express).
+- **Database Consistency**: Migrazioni gestite via TypeORM. All'avvio in Docker, il database viene popolato automaticamente con 100 prodotti di test tramite il seed incluso nella migrazione.
 
 ## Possibili miglioramenti
 
