@@ -23,8 +23,8 @@ export class Product {
   price?: number;
 
   // FK from category
-  @Column({ name: 'category_id' })
-  categoryId!: number;
+  @Column({ name: 'category_id', nullable: true })
+  categoryId?: number;
 
   @Column({ name: 'tags', type: 'text', array: true, nullable: true })
   tags?: string[];

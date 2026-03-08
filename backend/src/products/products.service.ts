@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import ProductsRepository from 'src/shared/repository/products/products.repository';
+import { Product } from 'src/shared/repository/products/entities/product.schema';
+import { ErrorEnum } from 'src/common/enum/error.enum';
+import ProductMapper from './mapper/product.mapper';
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  private readonly logger = new Logger(ProductsService.name);
+  constructor(private readonly productsRepository: ProductsRepository) {}
+
+  create(createProductDto: CreateProductDto): Promise<Product> {
+    return this.productsRepository.createAndSave({
+      name: createProductDto.name,
+      price: createProductDto.price,
+      categoryId: createProductDto.categoryId,
+      tags: createProductDto.tags,
+    });
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAll(): Promise<Product[]> {
+    return await this.productsRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: number): Promise<Product> {
+    const product = await this.productsRepository.findById(id);
+    if (!product) {
+      this.logger.error(`Product with this id ${id} not found.`);
+      throw new BadRequestException(ErrorEnum.PRODUCT_NOT_FOUND);
+    }
+    return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto): Promise<void> {
+    const partialProduct = ProductMapper.toEntity(updateProductDto);
+    await this.productsRepository.update(id, partialProduct);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number): Promise<void> {
+    const product = await this.productsRepository.findById(id);
+    if (!product) {
+      this.logger.error(`Product with this id ${id} not found.`);
+      throw new BadRequestException(ErrorEnum.PRODUCT_NOT_FOUND);
+    }
+    return this.productsRepository.remove(product);
   }
 }
