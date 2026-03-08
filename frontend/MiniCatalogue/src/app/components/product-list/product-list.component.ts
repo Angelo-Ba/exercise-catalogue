@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-product-list',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './product-list.html',
+  templateUrl: './product-list.component.html',
 })
 export class ProductListComponent implements OnInit {
   private productService = inject(ProductService);
