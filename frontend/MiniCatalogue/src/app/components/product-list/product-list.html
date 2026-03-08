@@ -1,1 +1,39 @@
-<p>product-list works!</p>
+<div class="container">
+  <!-- Filtri -->
+  <div class="filters">
+    <input (input)="updateSearch($event)" placeholder="Cerca prodotto..." type="text" />
+    <!-- da meettere la select per CategoryId -->
+  </div>
+
+  <!-- Stati -->
+  @if (loading()) {
+    <p>Caricamento in corso...</p>
+  }
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <!-- Lista Prodotti -->
+  @if (!loading() && products().length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Prezzo</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products(); track product.id) {
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price | currency: 'EUR' }}</td>
+            <td>{{ product.createdAt | date: 'short' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else if (!loading()) {
+    <p>Nessun prodotto trovato.</p>
+  }
+</div>

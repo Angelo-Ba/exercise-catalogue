@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Product, PaginatedProducts } from '../models/product';
+import { map, Observable } from 'rxjs';
+import { Product, PaginatedData, ApiResponse } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { Product, PaginatedProducts } from '../models/product';
 export class ProductService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/products'; // TODO: controllare e fixare se non funziona con docker
-  getProducts(filters: any): Observable<PaginatedProducts> {
+  getProducts(filters: any): Observable<PaginatedData> {
     let params = new HttpParams();
 
     // Mapping dinamico dei filtri per il backend NestJS
@@ -21,7 +21,9 @@ export class ProductService {
     if (filters.limit) params = params.set('limit', filters.limit);
     if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
 
-    return this.http.get<PaginatedProducts>(this.apiUrl, { params });
+    return this.http
+      .get<ApiResponse<PaginatedData>>(this.apiUrl + '/list', { params })
+      .pipe(map((response) => response.data.data));
   }
 
   getProductById(id: number): Observable<Product> {
