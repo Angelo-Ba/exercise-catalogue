@@ -16,6 +16,7 @@ import { ProductSearchDto } from './dto/product-search.dto';
 import { ApiQuery } from '@nestjs/swagger';
 import { OkResponsePaginated } from 'src/common/decorators/swagger/ok-response-paginated.decorator';
 import PaginatedResponseDto from 'src/common/dto/paginated-response.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('product')
 export class ProductsController {
@@ -51,7 +52,7 @@ export class ProductsController {
   @OkResponseVoid()
   update(
     @Param('id') id: string,
-    @Body() updateProductDto: ProductDto,
+    @Body() updateProductDto: UpdateProductDto,
   ): Promise<void> {
     return this.productsService.update(+id, updateProductDto);
   }

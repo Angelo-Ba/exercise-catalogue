@@ -1,22 +1,11 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsDateString,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class ProductDto {
-  @IsNumber()
+export class UpdateProductDto {
+  @IsString()
   @IsOptional()
   @ApiPropertyOptional()
-  id?: number;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiPropertyOptional()
-  name!: string;
+  name?: string;
 
   @IsNumber()
   @IsOptional()
@@ -32,9 +21,4 @@ export class ProductDto {
   @IsOptional()
   @ApiPropertyOptional()
   tags?: string[];
-
-  @IsDateString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  createdAt?: string;
 }

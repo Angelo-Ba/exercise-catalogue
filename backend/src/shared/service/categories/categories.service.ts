@@ -1,9 +1,8 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { CategoryDto } from './dto/category.dto';
 import CategoriesRepository from 'src/shared/repository/categories/categories.repository';
-import { Category } from 'src/shared/repository/categories/entities/category.schema';
 import { ErrorEnum } from 'src/common/enum/error.enum';
-import CategoryMapper from './mapper/category.mapper';
+import { CategoryDto } from 'src/categories/dto/category.dto';
+import CategoryMapper from 'src/categories/mapper/category.mapper';
 
 @Injectable()
 export class CategoriesService {

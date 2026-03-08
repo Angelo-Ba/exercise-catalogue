@@ -7,11 +7,11 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { CategoriesService } from './categories.service';
 import { CategoryDto } from './dto/category.dto';
 import { OkResponseVoid } from 'src/common/decorators/swagger/ok-response-void.decorator';
 import { OkResponse } from 'src/common/decorators/swagger/ok-response.decorator';
 import { OkResponseArray } from 'src/common/decorators/swagger/ok-response-array.decorator';
+import { CategoriesService } from 'src/shared/service/categories/categories.service';
 
 @Controller('category')
 export class CategoriesController {

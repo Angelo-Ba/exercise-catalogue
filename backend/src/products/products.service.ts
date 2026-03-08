@@ -6,6 +6,7 @@ import ProductMapper from './mapper/product.mapper';
 import { ProductDto } from './dto/product.dto';
 import { ProductSearchDto } from './dto/product-search.dto';
 import PaginatedResponseDto from 'src/common/dto/paginated-response.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -31,8 +32,9 @@ export class ProductsService {
     return ProductMapper.toResponse(product);
   }
 
-  async update(id: number, updateProductDto: ProductDto): Promise<void> {
-    const partialProduct = ProductMapper.toEntity(updateProductDto);
+  async update(id: number, updateProductDto: UpdateProductDto): Promise<void> {
+    const partialProduct =
+      ProductMapper.updateProductToEntity(updateProductDto);
     await this.productsRepository.update(id, partialProduct);
   }
 
