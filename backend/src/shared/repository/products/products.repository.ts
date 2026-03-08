@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { Product } from './entities/product.schema';
+import { ProductSearchDto } from 'src/products/dto/product-search.dto';
 
 @Injectable()
 export default class ProductsRepository {
@@ -15,10 +16,6 @@ export default class ProductsRepository {
 
   async findByName(): Promise<Product[]> {
     return this.entity.query('SELECT product.name FROM PRODUCT');
-  }
-  // TODO convertire in find paginated by filter (page size)
-  async findAll(): Promise<Product[]> {
-    return this.entity.find();
   }
 
   async createAndSave(data: Partial<Product>): Promise<Product> {
@@ -39,5 +36,44 @@ export default class ProductsRepository {
 
   async remove(product: Product): Promise<void> {
     await this.entity.remove(product);
+  }
+
+  async search(query: ProductSearchDto): Promise<[Product[], number]> {
+    const qb = this.entity.createQueryBuilder('product');
+
+    if (query.search) {
+      qb.andWhere('LOWER(product.name) LIKE LOWER(:search)', {
+        search: `%${query.search}%`,
+      });
+    }
+
+    if (query.categoryId) {
+      qb.andWhere('product.category_id = :categoryId', {
+        categoryId: query.categoryId,
+      });
+    }
+
+    if (query.minPrice) {
+      qb.andWhere('product.price >= :minPrice', {
+        minPrice: query.minPrice,
+      });
+    }
+
+    if (query.maxPrice) {
+      qb.andWhere('product.price <= :maxPrice', {
+        maxPrice: query.maxPrice,
+      });
+    }
+
+    if (query.sort) {
+      qb.orderBy(
+        `product.${query.sort}`,
+        (query.order?.toUpperCase() as 'ASC' | 'DESC') || 'ASC',
+      );
+    }
+    const page = query.page ?? 1;
+    const size = query.size ?? 10;
+    qb.skip((page - 1) * size).take(size);
+    return qb.getManyAndCount();
   }
 }

@@ -6,11 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductDto } from './dto/product.dto';
 import { OkResponse } from 'src/common/decorators/swagger/ok-response.decorator';
 import { OkResponseVoid } from 'src/common/decorators/swagger/ok-response-void.decorator';
+import { ProductSearchDto } from './dto/product-search.dto';
+import { ApiQuery } from '@nestjs/swagger';
+import { OkResponsePaginated } from 'src/common/decorators/swagger/ok-response-paginated.decorator';
+import PaginatedResponseDto from 'src/common/dto/paginated-response.dto';
 
 @Controller('product')
 export class ProductsController {
@@ -22,9 +27,18 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
-  @Get()
-  findAll(): Promise<ProductDto[]> {
-    return this.productsService.findAll();
+  @Get('/list')
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'categoryId', required: false })
+  @ApiQuery({ name: 'minPrice', required: false })
+  @ApiQuery({ name: 'maxPrice', required: false })
+  @ApiQuery({ name: 'sort', enum: ['price', 'created_at'], required: false })
+  @ApiQuery({ name: 'order', enum: ['asc', 'desc'], required: false })
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'size', required: false })
+  @OkResponsePaginated(ProductDto)
+  search(@Query() query: ProductSearchDto) {
+    return this.productsService.search(query);
   }
 
   @Get(':id')
