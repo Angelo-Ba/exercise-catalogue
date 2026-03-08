@@ -150,3 +150,26 @@ body {
     }
   }
 }
+
+.badge-category {
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.tags-container {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+
+  .tag-pill {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    border: 1px solid #bae6fd;
+  }
+}

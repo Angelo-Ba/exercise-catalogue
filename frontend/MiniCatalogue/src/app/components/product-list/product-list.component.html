@@ -25,8 +25,11 @@
       <thead>
         <tr>
           <th>Nome</th>
+          <th>Nome</th>
+          <th>Categoria</th>
           <th>Prezzo</th>
-          <th>Data Creazione</th>
+          <th>Tags</th>
+          <th>Creato il</th>
           <th style="text-align: center">Azioni</th>
         </tr>
       </thead>
@@ -36,7 +39,22 @@
             <td>
               <strong>{{ product.name }}</strong>
             </td>
+            <td>
+              <strong>{{ product.name }}</strong>
+            </td>
+            <td>
+              <span class="badge-category">
+                {{ getCategoryName(product.categoryId) }}
+              </span>
+            </td>
             <td>{{ product.price | currency: 'EUR' }}</td>
+            <td>
+              <div class="tags-container">
+                @for (tag of product.tags; track tag) {
+                  <span class="tag-pill">{{ tag }}</span>
+                }
+              </div>
+            </td>
             <td>{{ product.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td style="text-align: center">
               <div class="action-buttons">

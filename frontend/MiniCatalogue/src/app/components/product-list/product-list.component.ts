@@ -125,4 +125,10 @@ export class ProductListComponent implements OnInit {
       });
     }
   }
+
+  getCategoryName(id?: number): string {
+    if (!id) return 'N/A';
+    const category = this.categories().find((c) => c.id === id);
+    return category ? category.name : `Cat. ${id}`;
+  }
 }

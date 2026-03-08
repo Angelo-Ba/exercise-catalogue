@@ -50,7 +50,10 @@ export class ProductFormComponent implements OnInit {
 
   loadProductForEdit(id: number) {
     this.productService.getProductById(id).subscribe((product) => {
-      this.productForm.patchValue(product);
+      this.productForm.patchValue({
+        ...product,
+        tags: Array.isArray(product.tags) ? product.tags.join(', ') : product.tags,
+      });
     });
   }
 
@@ -58,7 +61,19 @@ export class ProductFormComponent implements OnInit {
     if (this.productForm.invalid) return;
 
     this.loading.set(true);
-    const productData = this.productForm.value;
+    const formValue = this.productForm.value;
+
+    // Trasforma la stringa "elettronica, nuovo" in array ["elettronica", "nuovo"]
+    const productData = {
+      ...formValue,
+      tags:
+        typeof formValue.tags === 'string'
+          ? formValue.tags
+              .split(',')
+              .map((t: string) => t.trim())
+              .filter((t: string) => t !== '')
+          : formValue.tags,
+    };
 
     const request = this.isEditMode()
       ? this.productService.updateProduct(this.productId()!, productData)
@@ -67,7 +82,7 @@ export class ProductFormComponent implements OnInit {
     request.subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigate(['/products']); // Torna alla lista dopo il successo
+        this.router.navigate(['/products']);
       },
       error: (err) => {
         this.loading.set(false);
