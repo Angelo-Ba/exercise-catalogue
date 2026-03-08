@@ -17,10 +17,14 @@ import { ApiQuery } from '@nestjs/swagger';
 import { OkResponsePaginated } from 'src/common/decorators/swagger/ok-response-paginated.decorator';
 import PaginatedResponseDto from 'src/common/dto/paginated-response.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { CategoriesService } from 'src/shared/service/categories/categories.service';
 
 @Controller('product')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly categoriesService: CategoriesService,
+  ) {}
 
   @Post()
   @OkResponse(ProductDto)
@@ -50,10 +54,16 @@ export class ProductsController {
 
   @Patch(':id')
   @OkResponseVoid()
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
   ): Promise<void> {
+    if (
+      updateProductDto.categoryId !== null &&
+      updateProductDto.categoryId !== undefined
+    ) {
+      await this.categoriesService.findOne(updateProductDto.categoryId);
+    }
     return this.productsService.update(+id, updateProductDto);
   }
 
