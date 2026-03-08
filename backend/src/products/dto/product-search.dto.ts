@@ -22,8 +22,8 @@ export class ProductSearchDto {
   maxPrice?: number;
 
   @IsOptional()
-  @IsEnum(['price', 'created_at'])
-  sort?: 'price' | 'created_at';
+  @IsEnum(['price', 'createdAt'])
+  sort?: 'price' | 'createdAt';
 
   @IsOptional()
   @IsEnum(['asc', 'desc'])

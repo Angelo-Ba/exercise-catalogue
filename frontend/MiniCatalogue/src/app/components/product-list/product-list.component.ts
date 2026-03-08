@@ -32,7 +32,7 @@ export class ProductListComponent implements OnInit {
   size = signal(10); // default a 10
   minPrice = signal<number | null>(null);
   maxPrice = signal<number | null>(null);
-  sort = signal<'price' | 'created_at'>('created_at');
+  sort = signal<'price' | 'createdAt'>('createdAt');
   order = signal<'asc' | 'desc'>('desc');
   categories = signal<Category[]>([]);
   productToDelete = signal<Product | null>(null);
@@ -151,7 +151,7 @@ export class ProductListComponent implements OnInit {
     return category ? category.name : `Cat. ${id}`;
   }
 
-  toggleSort(field: 'price' | 'created_at') {
+  toggleSort(field: 'price' | 'createdAt') {
     if (this.sort() === field) {
       this.order.set(this.order() === 'asc' ? 'desc' : 'asc');
     } else {

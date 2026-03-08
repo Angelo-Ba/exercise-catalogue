@@ -50,7 +50,7 @@ FROM nginx:1.25-alpine AS production
 COPY --from=build /usr/src/app/dist/MiniCatalogue/browser/. /usr/share/nginx/html
 
 # Copia file di configurazione nginx
-#COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Espone porta 4200
 EXPOSE 4200

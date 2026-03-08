@@ -37,7 +37,7 @@ export class ProductsController {
   @ApiQuery({ name: 'categoryId', required: false })
   @ApiQuery({ name: 'minPrice', required: false })
   @ApiQuery({ name: 'maxPrice', required: false })
-  @ApiQuery({ name: 'sort', enum: ['price', 'created_at'], required: false })
+  @ApiQuery({ name: 'sort', enum: ['price', 'createdAt'], required: false })
   @ApiQuery({ name: 'order', enum: ['asc', 'desc'], required: false })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'size', required: false })

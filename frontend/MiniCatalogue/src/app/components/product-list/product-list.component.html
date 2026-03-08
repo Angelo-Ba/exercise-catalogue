@@ -51,9 +51,9 @@
           </th>
           <th>Tags</th>
           <!-- Ordinamento per Data -->
-          <th (click)="toggleSort('created_at')" style="cursor: pointer">
+          <th (click)="toggleSort('createdAt')" style="cursor: pointer">
             Creato il
-            @if (sort() === 'created_at') {
+            @if (sort() === 'createdAt') {
               <i
                 class="bi"
                 [class.bi-arrow-up]="order() === 'asc'"
