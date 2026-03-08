@@ -58,10 +58,7 @@ export class ProductsController {
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
   ): Promise<void> {
-    if (
-      updateProductDto.categoryId !== null &&
-      updateProductDto.categoryId !== undefined
-    ) {
+    if (updateProductDto.categoryId != null) {
       await this.categoriesService.findOne(updateProductDto.categoryId);
     }
     return this.productsService.update(+id, updateProductDto);

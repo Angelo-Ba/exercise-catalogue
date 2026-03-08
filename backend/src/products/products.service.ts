@@ -14,6 +14,10 @@ export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
   async create(createProductDto: ProductDto): Promise<ProductDto> {
+    if (createProductDto.price != null && createProductDto.price < 0) {
+      this.logger.error(`Product can't have negative price.`);
+      throw new BadRequestException(ErrorEnum.NEGATIVE_PRODUCT_PRICE);
+    }
     const product = await this.productsRepository.createAndSave({
       name: createProductDto.name,
       price: createProductDto.price,
@@ -33,6 +37,10 @@ export class ProductsService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<void> {
+    if (updateProductDto.price != null && updateProductDto.price < 0) {
+      this.logger.error(`Product can't have negative price.`);
+      throw new BadRequestException(ErrorEnum.NEGATIVE_PRODUCT_PRICE);
+    }
     const partialProduct =
       ProductMapper.updateProductToEntity(updateProductDto);
     await this.productsRepository.update(id, partialProduct);
