@@ -3,13 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Product, PaginatedData } from '../models/product.model';
 import { ApiResponse } from '../models/api-response.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/products'; // TODO: controllare e fixare se non funziona con docker
+  private apiUrl = `${environment.apiUrl}/products`;
   getProducts(filters: any): Observable<PaginatedData> {
     let params = new HttpParams();
 
