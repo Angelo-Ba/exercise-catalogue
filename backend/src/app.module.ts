@@ -6,6 +6,8 @@ import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import DbShutdownRepositoryModule from './shared/repository/shutdown/db-shutdown.repository.module';
 import CommonModule from './common/common.module';
+import { Product } from './shared/repository/products/entities/product.schema';
+import { Category } from './shared/repository/categories/entities/category.schema';
 
 @Module({
   imports: [
@@ -69,7 +71,7 @@ import CommonModule from './common/common.module';
           username,
           password,
           database,
-          entities: [],
+          entities: [Category, Product],
           migrations: [`${process.cwd()}/dist/migrations/*.js`],
           migrationsRun: dbMigrations === 'true',
           synchronize: dbSynchronize === 'true',

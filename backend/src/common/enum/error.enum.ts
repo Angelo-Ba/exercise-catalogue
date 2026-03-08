@@ -5,4 +5,5 @@ export enum ErrorEnum {
   INVALID_ID = 'invalid_id',
   PRODUCT_NOT_FOUND = 'product_not_found',
   CATEGORY_NOT_FOUND = 'category_not_found',
+  INVALID_TOKEN = 'invalid_token',
 }
