@@ -19,7 +19,7 @@ import PaginatedResponseDto from 'src/common/dto/paginated-response.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { CategoriesService } from 'src/shared/service/categories/categories.service';
 
-@Controller('product')
+@Controller('products')
 export class ProductsController {
   constructor(
     private readonly productsService: ProductsService,

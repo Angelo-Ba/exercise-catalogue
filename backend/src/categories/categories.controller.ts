@@ -13,7 +13,7 @@ import { OkResponse } from 'src/common/decorators/swagger/ok-response.decorator'
 import { OkResponseArray } from 'src/common/decorators/swagger/ok-response-array.decorator';
 import { CategoriesService } from 'src/shared/service/categories/categories.service';
 
-@Controller('category')
+@Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
