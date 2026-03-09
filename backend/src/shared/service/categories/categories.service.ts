@@ -10,6 +10,13 @@ export class CategoriesService {
   constructor(private readonly categoriesRepository: CategoriesRepository) {}
 
   async create(createCategoryDto: CategoryDto): Promise<CategoryDto> {
+    if (
+      createCategoryDto.name !== undefined &&
+      createCategoryDto.name.trim() === ''
+    ) {
+      this.logger.error(`Category name is empty.`);
+      throw new BadRequestException(ErrorEnum.CATEGORY_NAME_EMPTY);
+    }
     const category = await this.categoriesRepository.createAndSave({
       name: createCategoryDto.name,
     });
