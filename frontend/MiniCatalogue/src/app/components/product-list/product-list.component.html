@@ -17,13 +17,13 @@
     <input
       type="number"
       placeholder="Min €"
-      (input)="minPrice.set($any($event.target).value || null); page.set(1)"
+      (input)="updatePriceFilter($event, 'min')"
       style="width: 80px"
     />
     <input
       type="number"
       placeholder="Max €"
-      (input)="maxPrice.set($any($event.target).value || null); page.set(1)"
+      (input)="updatePriceFilter($event, 'max')"
       style="width: 80px"
     />
   </div>

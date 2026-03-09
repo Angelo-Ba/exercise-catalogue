@@ -29,6 +29,7 @@ export class ProductListComponent implements OnInit {
 
   search = signal('');
   private searchSubject = new Subject<string>();
+  private priceSubject = new Subject<{ val: number | null; type: 'min' | 'max' }>();
   categoryId = signal<number | null>(null);
   page = signal(1);
   size = signal(10); // default a 10
@@ -54,6 +55,20 @@ export class ProductListComponent implements OnInit {
       )
       .subscribe((value) => {
         this.search.set(value);
+        this.page.set(1);
+      });
+
+    this.priceSubject
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged((prev, curr) => prev.val === curr.val && prev.type === curr.type),
+      )
+      .subscribe((data) => {
+        if (data.type === 'min') {
+          this.minPrice.set(data.val);
+        } else {
+          this.maxPrice.set(data.val);
+        }
         this.page.set(1);
       });
     // Ogni volta che i filtri cambiano, ricarica i dati
@@ -172,5 +187,13 @@ export class ProductListComponent implements OnInit {
       this.order.set('desc');
     }
     this.page.set(1);
+  }
+
+  updatePriceFilter(event: Event, type: 'min' | 'max') {
+    const val = (event.target as HTMLInputElement).value;
+    this.priceSubject.next({
+      val: val ? Number(val) : null,
+      type,
+    });
   }
 }
