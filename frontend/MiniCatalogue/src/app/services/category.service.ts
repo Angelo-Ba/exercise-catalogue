@@ -15,4 +15,10 @@ export class CategoryService {
       .get<{ success: boolean; data: Category[] }>(this.apiUrl + '/list')
       .pipe(map((response) => response.data));
   }
+
+  createCategory(name: string): Observable<Category> {
+    return this.http
+      .post<ApiResponse<Category>>(this.apiUrl, { name })
+      .pipe(map((response) => response.data.data));
+  }
 }
