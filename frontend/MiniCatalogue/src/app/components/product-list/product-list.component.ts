@@ -97,7 +97,9 @@ export class ProductListComponent implements OnInit {
 
   // Metodi per UI
   updateSearch(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+    const input = event.target as HTMLInputElement;
+    const value = input.value.trim();
+
     this.search.set(value);
     this.page.set(1); // Reset pagina alla ricerca
   }

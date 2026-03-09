@@ -14,6 +14,13 @@ export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
   async create(createProductDto: ProductDto): Promise<ProductDto> {
+    if (
+      createProductDto.name != undefined &&
+      createProductDto.name.trim() === ''
+    ) {
+      this.logger.error(`Product name is required.`);
+      throw new BadRequestException(ErrorEnum.INVALID_PRODUCT_NAME);
+    }
     if (createProductDto.price != null && createProductDto.price < 0) {
       this.logger.error(`Product can't have negative price.`);
       throw new BadRequestException(ErrorEnum.NEGATIVE_PRODUCT_PRICE);
@@ -38,7 +45,7 @@ export class ProductsService {
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<void> {
     if (
-      updateProductDto.name !== undefined &&
+      updateProductDto.name != undefined &&
       updateProductDto.name.trim() === ''
     ) {
       this.logger.error(`Product name is required.`);

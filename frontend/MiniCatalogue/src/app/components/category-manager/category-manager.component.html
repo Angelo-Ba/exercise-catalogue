@@ -1,8 +1,4 @@
 <div class="form-container" [class.loading-overlay]="loading()">
-  @if (error()) {
-    <div class="alert alert-danger">{{ error() }}</div>
-  }
-
   <h2>Gestione Categorie</h2>
 
   <!-- Form di Creazione Rapida -->
@@ -23,6 +19,10 @@
           {{ loading() ? '...' : 'Aggiungi' }}
         </button>
       </div>
+      @if (error()) {
+        <div class="error-text">{{ error() }}</div>
+      }
+
       @if (categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched) {
         <small class="error-text">Inserire almeno 3 caratteri.</small>
       }
