@@ -1,4 +1,5 @@
 export const ERROR_MAPPING: Record<string, string> = {
+  GENERIC_SERVER_ERROR: 'Errore del server generico',
   NEGATIVE_PRODUCT_PRICE: 'Il prezzo del prodotto non può essere negativo.',
   PRODUCT_NAME_REQUIRED: 'Il nome del prodotto è obbligatorio.',
   CATEGORY_NOT_FOUND: 'La categoria selezionata non esiste.',
