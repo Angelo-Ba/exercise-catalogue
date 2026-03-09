@@ -19,6 +19,7 @@
           {{ loading() ? '...' : 'Aggiungi' }}
         </button>
       </div>
+
       @if (error()) {
         <div class="error-text">{{ error() }}</div>
       }
@@ -39,10 +40,10 @@
         </tr>
       </thead>
       <tbody>
-        @for (cat of categories(); track cat.id) {
+        @for (cat of categories(); track cat.id; let i = $index) {
           <tr>
             <td>
-              <span class="tag-pill">#{{ cat.id }}</span>
+              <span class="tag-pill">{{ i + 1 }}</span>
             </td>
             <td>
               <strong>{{ cat.name }}</strong>

@@ -59,10 +59,10 @@ export class CategoryManagerComponent implements OnInit {
 
     this.categoryService.createCategory(this.categoryForm.value.name).subscribe({
       next: (newCat) => {
-        this.loading.set(false);
-        this.categories.update((prev) => [...prev, newCat]);
         this.categoryForm.reset();
         this.toast.show('Categoria creata con successo!');
+        this.loadCategories();
+        this.loading.set(false);
       },
       error: (err) => {
         this.loading.set(false);
