@@ -59,11 +59,11 @@ COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
 # Copia env e resources se ci sono
 COPY --chown=node:node env ./env
-COPY --chown=node:node resources ./resources
+#COPY --chown=node:node resources ./resources
 
 # Versione app
-COPY --chown=node:node --from=build /usr/src/app/package.json ./package.json
-RUN cat package.json | grep -m1 '"version"' | awk -F: '{ gsub(/[ \",]/, "", $2); print $2 }' > ./resources/version && rm package.json
+#COPY --chown=node:node --from=build /usr/src/app/package.json ./package.json
+#RUN cat package.json | grep -m1 '"version"' | awk -F: '{ gsub(/[ \",]/, "", $2); print $2 }' > ./resources/version && rm package.json
 
 # Comando finale
 CMD ["node", "dist/main.js"]
