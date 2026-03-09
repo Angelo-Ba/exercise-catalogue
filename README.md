@@ -102,17 +102,19 @@ Visualizzare i log del backend (Docker):
 È possibile cambiare il livello dei log usando la variabile di ambiente `LOG_LEVEL`.
 Pino utilizza una convenzione diversa rispetto a NestJS; la tabella di conversione è:
 
+```
 LOG_LEVEL | NESTJS
 trace | verbose
 debug | debug
 info | log
 warn | warn
 error | error
+```
 
 ## Note
 
-- Le migrazioni sono gestite solo se DATABASE_SYNC=false.
-- Le migrazioni verranno eseguite automaticamente se DATABASE_MIGRATIONS=true in .env.
+- Le migrazioni sono gestite solo se `DATABASE_SYNC="false"`.
+- Le migrazioni verranno eseguite automaticamente se `DATABASE_MIGRATIONS="true"` in .env.
 - La versione dell’applicazione è letta da resources/version.
 - **Frontend Reactive**: Sviluppato con **Angular Signals** per una gestione dello stato moderna e performante, minimizzando i cicli di change detection.
 - **Backend High Performance**: Utilizzo di **Fastify** come adapter per NestJS per garantire maggiore velocità rispetto al default (Express).
