@@ -8,6 +8,7 @@ import { CategoryService } from '../../services/category.service';
 import { RouterLink } from '@angular/router';
 import { ToastService } from '../../shared/service/toast.service';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal.component';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -27,6 +28,7 @@ export class ProductListComponent implements OnInit {
   error = signal<string | null>(null);
 
   search = signal('');
+  private searchSubject = new Subject<string>();
   categoryId = signal<number | null>(null);
   page = signal(1);
   size = signal(10); // default a 10
@@ -45,6 +47,15 @@ export class ProductListComponent implements OnInit {
   } | null>(null);
 
   constructor() {
+    this.searchSubject
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(), // Non partire se la stringa è identica a prima
+      )
+      .subscribe((value) => {
+        this.search.set(value);
+        this.page.set(1);
+      });
     // Ogni volta che i filtri cambiano, ricarica i dati
     effect(() => {
       this.loadProducts();
@@ -100,7 +111,7 @@ export class ProductListComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     const value = input.value.trim();
 
-    this.search.set(value);
+    this.searchSubject.next(value);
     this.page.set(1); // Reset pagina alla ricerca
   }
 

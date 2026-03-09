@@ -15,7 +15,7 @@ Tutti i servizi (backend, frontend, database) sono definiti in docker-compose.ym
 
 1. **Configurazione ambiente**:
    Nella root del progetto, crea il file `.env` partendo dall'esempio aprire un terminale:
-
+   `bash`
    `cp .env.example .env`
 
 2. Una volta configurato il file `.env` lanciare il comando:
@@ -82,7 +82,12 @@ Creare una nuova migrazione:
 - ` cd backend`
 - ` npm run migration:create src/migrations/<nome_migrazione>`
 
-Swagger API: http://localhost:3000/api
+  ## Test e Verifica
+
+  Non sono presenti Unit Test automatizzati. Per verificare il corretto funzionamento:
+  1. Avviare i container con `docker compose up`.
+  2. Accedere a `http://localhost:3000/api` (Swagger) per testare le API.
+  3. Le migrazioni popoleranno automaticamente il DB con 100 prodotti e 11 categorie per il testing manuale del frontend.
 
 Visualizzare i log del backend (Docker):
 
