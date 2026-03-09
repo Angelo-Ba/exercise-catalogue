@@ -16,11 +16,11 @@ Tutti i servizi (backend, frontend, database) sono definiti in docker-compose.ym
 1. **Configurazione ambiente**:
    Nella root del progetto, crea il file `.env` partendo dall'esempio aprire un terminale:
 
-   `bash cp .env.example .env `
+   `cp .env.example .env`
 
 2. Una volta configurato il file `.env` lanciare il comando:
 
-- `bash docker compose up --build -d`
+- ` docker compose up --build -d`
 
 Endpoint:
 
@@ -33,22 +33,22 @@ Swagger disponibile su: http://localhost:3000/api
 
 Avvio locale del backend (senza Docker):
 
-- Tutte le variabili di ambiente sono in `env/` e il file `.env.local.example` può essere copiato per sviluppo locale:
-- `bash cp env/local.env.example env/local.env`
+- Tutte le variabili di ambiente sono in `env/` e il file `.env.local.example` può essere copiato per sviluppo locale lanciando il comando:
+- ` cp env/local.env.example env/local.env`
 - Installa le dipendenze:
-  - `bash cd backend`
-  - `bash npm i`
+  - ` cd backend`
+  - ` npm i`
 - Avvia il backend in modalità sviluppo:
-  - `bash npm run build`
-  - `bash npm run start:dev`
+  - ` npm run build`
+  - ` npm run start:dev`
 
 Il backend sarà disponibile su http://localhost:3000.
 
 Avvio locale del frontend (senza Docker):
 
-- `bash cd frontend`
-- `bash npm i`
-- `bash npm run start`
+- ` cd frontend`
+- ` npm i`
+- ` npm run start`
 
 Il frontend sarà disponibile su http://localhost:4200.
 
@@ -79,14 +79,14 @@ exercise-catalogue/
 
 Creare una nuova migrazione:
 
-- `bash cd backend`
-- `bash npm run migration:create src/migrations/<nome_migrazione>`
+- ` cd backend`
+- ` npm run migration:create src/migrations/<nome_migrazione>`
 
 Swagger API: http://localhost:3000/api
 
 Visualizzare i log del backend (Docker):
 
-- `bash docker compose logs -f mini-catalogue-backend`
+- ` docker compose logs -f mini-catalogue-backend`
 
 ## Variabili d'ambiente
 
