@@ -6,8 +6,10 @@ export class ToastService {
   type = signal<'success' | 'error'>('success');
 
   show(msg: string, type: 'success' | 'error' = 'success') {
-    this.message.set(msg);
-    this.type.set(type);
+    setTimeout(() => {
+      this.message.set(msg);
+      this.type.set(type);
+    }, 10);
 
     // Auto-chiusura dopo 3 secondi
     setTimeout(() => this.message.set(null), 3000);

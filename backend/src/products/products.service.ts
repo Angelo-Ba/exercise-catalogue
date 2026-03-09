@@ -37,6 +37,13 @@ export class ProductsService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<void> {
+    if (
+      updateProductDto.name !== undefined &&
+      updateProductDto.name.trim() === ''
+    ) {
+      this.logger.error(`Product name is required.`);
+      throw new BadRequestException(ErrorEnum.PRODUCT_NAME_REQUIRED);
+    }
     if (updateProductDto.price != null && updateProductDto.price < 0) {
       this.logger.error(`Product can't have negative price.`);
       throw new BadRequestException(ErrorEnum.NEGATIVE_PRODUCT_PRICE);

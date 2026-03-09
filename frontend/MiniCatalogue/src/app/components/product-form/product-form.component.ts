@@ -6,6 +6,7 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category.model';
 import { ToastService } from '../../shared/service/toast.service';
+import { ERROR_MAPPING } from '../../shared/util/error-message';
 
 @Component({
   selector: 'app-product-form',
@@ -104,14 +105,17 @@ export class ProductFormComponent implements OnInit {
       },
       error: (err) => {
         this.loading.set(false);
-        this.toast.show('Errore durante il salvataggio', 'error');
-        const backendMessage = err.error?.message;
-        this.error.set(
-          Array.isArray(backendMessage)
-            ? backendMessage.join(', ')
-            : backendMessage || 'Errore di comunicazione con il server',
-        );
-        console.error('Errore durante il salvataggio', err);
+        const raw = err.error?.debug?.response?.message || err.error?.message;
+
+        let msgToDisplay = Array.isArray(raw) ? raw.join(', ') : raw || 'Errore imprevisto';
+        const mapped = ERROR_MAPPING[String(msgToDisplay).toUpperCase()];
+        if (mapped) {
+          msgToDisplay = mapped;
+        }
+
+        // Mostra UI
+        this.error.set(msgToDisplay);
+        this.toast.show(msgToDisplay, 'error');
       },
     });
   }
