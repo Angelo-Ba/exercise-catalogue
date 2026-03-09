@@ -13,9 +13,14 @@ Tutti i servizi (backend, frontend, database) sono definiti in docker-compose.ym
 
 ## Build e avvio di BE, FE, DB
 
-Nella root del progetto lanciare il comando:
+1. **Configurazione ambiente**:
+   Nella root del progetto, crea il file `.env` partendo dall'esempio aprire un terminale:
 
-- docker compose up --build -d
+   `bash cp .env.example .env `
+
+2. Una volta configurato il file `.env` lanciare il comando:
+
+- `bash docker compose up --build -d`
 
 Endpoint:
 
@@ -28,22 +33,22 @@ Swagger disponibile su: http://localhost:3000/api
 
 Avvio locale del backend (senza Docker):
 
-- Tutte le variabili di ambiente sono in env/ e il file .env.local.example può essere copiato per sviluppo locale:
-- cp env/local.env.example env/local.env
+- Tutte le variabili di ambiente sono in `env/` e il file `.env.local.example` può essere copiato per sviluppo locale:
+- `bash cp env/local.env.example env/local.env`
 - Installa le dipendenze:
-  - cd backend
-  - npm i
+  - `bash cd backend`
+  - `bash npm i`
 - Avvia il backend in modalità sviluppo:
-  - npm run build
-  - npm run start:dev
+  - `bash npm run build`
+  - `bash npm run start:dev`
 
 Il backend sarà disponibile su http://localhost:3000.
 
 Avvio locale del frontend (senza Docker):
 
-- cd frontend
-- npm i
-- npm run start
+- `bash cd frontend`
+- `bash npm i`
+- `bash npm run start`
 
 Il frontend sarà disponibile su http://localhost:4200.
 
@@ -74,14 +79,14 @@ exercise-catalogue/
 
 Creare una nuova migrazione:
 
-- cd backend
-- npm run migration:create src/migrations/<nome_migrazione>
+- `bash cd backend`
+- `bash npm run migration:create src/migrations/<nome_migrazione>`
 
 Swagger API: http://localhost:3000/api
 
 Visualizzare i log del backend (Docker):
 
-- docker compose logs -f mini-catalogue-backend
+- `bash docker compose logs -f mini-catalogue-backend`
 
 ## Variabili d'ambiente
 
@@ -89,7 +94,7 @@ Visualizzare i log del backend (Docker):
   - APP_PORT – porta su cui avviare il backend
   - LOG_LEVEL – livello di log per Pino
   - APP_ENV – definisce quale file .env usare
-    -ONLY_SWAGGER_SPEC – impostare true solo durante la generazione dello Swagger; non modificare manualmente
+  - ONLY_SWAGGER_DOC – impostare true solo durante la generazione dello Swagger; non modificare manualmente
 - Negli altri file, usare sempre ConfigService per leggere le variabili di configurazione.
 
 ## Log

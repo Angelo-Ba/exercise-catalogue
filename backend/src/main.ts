@@ -36,13 +36,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
 
-  // Generate swagger spec JSON if ONLY_SWAGGER_SPEC=true
-  if (process.env.ONLY_SWAGGER_SPEC === 'true') {
+  // Generate swagger doc JSON if ONLY_SWAGGER_DOC=true
+  if (process.env.ONLY_SWAGGER_DOC === 'true') {
     writeFileSync(
-      `./generated/swagger-spec-${process.env.SDK_CLIENT || 'default'}.json`,
+      `./generated/swagger-doc-${process.env.SDK_CLIENT || 'default'}.json`,
       JSON.stringify(document),
     );
-    console.log('swagger-spec generated');
+    console.log('swagger-doc generated');
     process.exit(0);
   }
 
