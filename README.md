@@ -26,7 +26,7 @@ Endpoint:
 
 - Backend: http://localhost:3000
 - Frontend: http://localhost:4200
-- PostgreSQL: localhost:5432 (utente: postgres, password: postgres, DB: catalogue)
+- PostgreSQL: localhost:5432 (utente, password e DB sono quelli scelti nel file `.env` globale)
 
 Nota: le migrazioni PostgreSQL vengono eseguite automaticamente all’avvio del backend.
 Swagger disponibile su: http://localhost:3000/api
@@ -91,15 +91,15 @@ Visualizzare i log del backend (Docker):
 ## Variabili d'ambiente
 
 - Utilizzare process.env solo in main.ts e app.module.ts:
-  - APP_PORT – porta su cui avviare il backend
-  - LOG_LEVEL – livello di log per Pino
-  - APP_ENV – definisce quale file .env usare
-  - ONLY_SWAGGER_DOC – impostare true solo durante la generazione dello Swagger; non modificare manualmente
+  - `APP_PORT` – porta su cui avviare il backend
+  - `LOG_LEVEL` – livello di log per Pino
+  - `APP_ENV` – definisce quale file .env usare
+  - `ONLY_SWAGGER_DOC` – impostare true solo durante la generazione dello Swagger; non modificare manualmente
 - Negli altri file, usare sempre ConfigService per leggere le variabili di configurazione.
 
 ## Log
 
-È possibile cambiare il livello dei log usando la variabile di ambiente LOG_LEVEL.
+È possibile cambiare il livello dei log usando la variabile di ambiente `LOG_LEVEL`.
 Pino utilizza una convenzione diversa rispetto a NestJS; la tabella di conversione è:
 
 LOG_LEVEL | NESTJS
