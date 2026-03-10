@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category.model';
 import { ToastService } from '../../shared/service/toast.service';
-import { ERROR_MAPPING } from '../../shared/util/error-message';
+import { ERROR_MAPPING, getFormControlError } from '../../shared/util/error-message';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -18,6 +18,7 @@ export class CategoryManagerComponent implements OnInit {
   private fb = inject(FormBuilder);
   private categoryService = inject(CategoryService);
   private toast = inject(ToastService);
+  readonly getFormError = getFormControlError;
 
   categoryForm: FormGroup;
   categories = signal<Category[]>([]);
@@ -26,7 +27,7 @@ export class CategoryManagerComponent implements OnInit {
 
   constructor() {
     this.categoryForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     });
   }
 

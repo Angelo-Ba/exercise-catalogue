@@ -16,11 +16,10 @@
             "
           />
 
-          @if (error()) {
-            <small class="error-text">{{ error() }}</small>
-          }
           @if (categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched) {
-            <small class="error-text">Inserire almeno 3 caratteri.</small>
+            <small class="error-text">{{ getFormError(categoryForm.get('name')?.errors) }}</small>
+          } @else if (error()) {
+            <small class="error-text">{{ error() }}</small>
           }
         </div>
 

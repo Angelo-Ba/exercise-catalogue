@@ -10,10 +10,14 @@
       <input
         type="text"
         formControlName="name"
-        [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+        [class.is-invalid]="
+          (productForm.get('name')?.invalid && productForm.get('name')?.touched) || error()
+        "
       />
       @if (productForm.get('name')?.invalid && productForm.get('name')?.touched) {
-        <small class="error-text">Il nome è obbligatorio (almeno 3 caratteri).</small>
+        <small class="error-text">
+          {{ getFormError(productForm.get('name')?.errors) }}
+        </small>
       }
     </div>
 
@@ -29,7 +33,9 @@
           "
         />
         @if (productForm.get('price')?.invalid && productForm.get('price')?.touched) {
-          <small class="error-text">Il prezzo deve essere ≥ 0.</small>
+          <small class="error-text">
+            {{ getFormError(productForm.get('price')?.errors) }}
+          </small>
         }
       </div>
 

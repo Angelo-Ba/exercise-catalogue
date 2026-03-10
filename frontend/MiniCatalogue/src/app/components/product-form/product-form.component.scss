@@ -40,6 +40,11 @@
       width: 100%;
       box-sizing: border-box;
       font-size: 1rem;
+
+      &.is-invalid {
+        border: 1px solid #dc3545;
+        background-color: #fff8f8;
+      }
     }
 
     .error-text {

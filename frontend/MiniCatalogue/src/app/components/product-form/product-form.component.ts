@@ -6,7 +6,7 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category.model';
 import { ToastService } from '../../shared/service/toast.service';
-import { ERROR_MAPPING } from '../../shared/util/error-message';
+import { ERROR_MAPPING, getFormControlError } from '../../shared/util/error-message';
 
 @Component({
   selector: 'app-product-form',
@@ -22,6 +22,7 @@ export class ProductFormComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private toast = inject(ToastService);
+  readonly getFormError = getFormControlError;
 
   productForm: FormGroup;
   categories = signal<Category[]>([]);
@@ -32,7 +33,7 @@ export class ProductFormComponent implements OnInit {
 
   constructor() {
     this.productForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       price: [0, [Validators.required, Validators.min(0)]], // Validazione prezzo >= 0
       categoryId: [],
       tags: [[]], // Gestibile come stringa separata da virgole per semplicità
