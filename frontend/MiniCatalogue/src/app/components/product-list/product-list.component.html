@@ -38,28 +38,42 @@
         <tr>
           <th>Nome</th>
           <th>Categoria</th>
-          <!-- Ordinamento per Prezzo -->
-          <th (click)="toggleSort('price')" style="cursor: pointer">
-            Prezzo
-            @if (sort() === 'price') {
+          <!-- Colonna Prezzo -->
+          <th
+            (click)="toggleSort('price')"
+            class="sortable-header"
+            [class.active-sort]="sort() === 'price'"
+          >
+            <div class="header-content" style="display: flex; align-items: center; gap: 8px">
+              Prezzo
               <i
                 class="bi"
-                [class.bi-arrow-up]="order() === 'asc'"
-                [class.bi-arrow-down]="order() === 'desc'"
-              ></i>
-            }
+                [class.bi-arrow-up]="sort() === 'price' && order() === 'asc'"
+                [class.bi-arrow-down]="sort() === 'price' && order() === 'desc'"
+                [class.bi-arrow-down-up]="sort() !== 'price'"
+                [style.opacity]="sort() === 'price' ? '1' : '0.2'"
+              >
+              </i>
+            </div>
           </th>
           <th>Tags</th>
-          <!-- Ordinamento per Data -->
-          <th (click)="toggleSort('createdAt')" style="cursor: pointer">
-            Creato il
-            @if (sort() === 'createdAt') {
+          <!-- Colonna Data -->
+          <th
+            (click)="toggleSort('createdAt')"
+            class="sortable-header"
+            [class.active-sort]="sort() === 'createdAt'"
+          >
+            <div class="header-content" style="display: flex; align-items: center; gap: 8px">
+              Data creazione
               <i
                 class="bi"
-                [class.bi-arrow-up]="order() === 'asc'"
-                [class.bi-arrow-down]="order() === 'desc'"
-              ></i>
-            }
+                [class.bi-arrow-up]="sort() === 'createdAt' && order() === 'asc'"
+                [class.bi-arrow-down]="sort() === 'createdAt' && order() === 'desc'"
+                [class.bi-arrow-down-up]="sort() !== 'createdAt'"
+                [style.opacity]="sort() === 'createdAt' ? '1' : '0.2'"
+              >
+              </i>
+            </div>
           </th>
           <th style="text-align: center">Azioni</th>
         </tr>

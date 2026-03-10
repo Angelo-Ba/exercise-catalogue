@@ -1,26 +1,36 @@
 @use 'sass:color';
+
 $primary: #2563eb;
 $bg-body: #f8fafc;
 $text-main: #1e293b;
 $border-color: #e2e8f0;
 $white: #ffffff;
+$error-color: #dc3545;
 
 :host {
   display: block;
-  padding: 2rem;
+  padding: 1rem;
   background-color: $bg-body;
   min-height: 100vh;
   font-family: 'Inter', system-ui, sans-serif;
   color: $text-main;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
 }
 
 .form-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
   background: $white;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
 
   h2 {
     margin-bottom: 1.5rem;
@@ -45,55 +55,90 @@ $white: #ffffff;
         font-size: 0.9rem;
       }
 
-      input {
-        padding: 0.6rem 1rem;
-        border: 1px solid $border-color;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        outline: none;
-        transition: all 0.2s;
+      .input-group-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
 
-        &:focus {
-          border-color: $primary;
-          box-shadow: 0 0 0 3px rgba($primary, 0.1);
+        @media (min-width: 600px) {
+          flex-direction: row;
+          align-items: flex-start;
         }
 
-        &.is-invalid {
-          border-color: #dc3545;
-          background-color: #fff8f8;
-        }
-      }
+        .input-wrapper {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          width: 100%;
 
-      .error-text {
-        color: #dc3545;
-        font-size: 0.8rem;
-        font-weight: 500;
+          input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: 1px solid $border-color;
+            box-sizing: border-box;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+
+            &:focus {
+              border-color: $primary;
+              box-shadow: 0 0 0 3px rgba($primary, 0.1);
+            }
+
+            &.is-invalid {
+              border-color: $error-color;
+              background-color: #fff8f8;
+            }
+          }
+
+          .error-text {
+            color: $error-color;
+            font-size: 0.8rem;
+            font-weight: 500;
+          }
+        }
+
+        .btn-primary {
+          height: 42px;
+          white-space: nowrap;
+        }
       }
     }
   }
 
   .table-responsive {
+    width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 
     table {
       width: 100%;
       border-collapse: collapse;
+      min-width: 400px;
 
-      th {
-        text-align: left;
-        background: #f1f5f9;
-        padding: 1rem;
-        font-weight: 600;
-        border-bottom: 2px solid $border-color;
-      }
-
+      th,
       td {
+        text-align: center;
         padding: 1rem;
         border-bottom: 1px solid $border-color;
       }
 
+      th {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: $text-main;
+      }
+
       tr:hover {
         background-color: #f8fafc;
+      }
+
+      .tag-pill {
+        display: inline-block;
+        min-width: 24px;
+        text-align: center;
       }
     }
   }
@@ -113,7 +158,7 @@ $white: #ffffff;
   background: $primary;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 0 20px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;

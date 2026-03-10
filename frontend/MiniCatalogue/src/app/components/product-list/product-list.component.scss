@@ -1,4 +1,4 @@
-// Variabili colore (Professional Palette)
+// Variabili colore
 $primary: #2563eb;
 $bg-body: #f8fafc;
 $text-main: #1e293b;
@@ -7,20 +7,28 @@ $white: #ffffff;
 
 :host {
   display: block;
-  padding: 2rem;
+  padding: 1rem; // Ridotto per mobile
   background-color: $bg-body;
   min-height: 100vh;
   font-family: 'Inter', system-ui, sans-serif;
   color: $text-main;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
 }
 
 .container {
   max-width: 1100px;
   margin: 0 auto;
   background: $white;
-  padding: 1.5rem;
+  padding: 1rem; // Ridotto per mobile
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+  }
 }
 
 // Barra Filtri
@@ -51,11 +59,17 @@ $white: #ffffff;
   }
 }
 
-// Tabella
+.table-responsive {
+  width: 100%;
+  overflow-x: auto; // Permette lo scroll orizzontale solo della tabella
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1rem;
+  min-width: 600px; // Evita che la tabella si schiacci troppo su mobile
 
   th {
     text-align: left;
@@ -63,58 +77,27 @@ table {
     padding: 1rem;
     font-weight: 600;
     border-bottom: 2px solid $border-color;
-
-    .bi {
-      margin-left: 5px;
-      font-size: 0.85rem;
-      vertical-align: middle;
-      color: #2563eb;
-    }
-
-    &:hover {
-      color: #2563eb;
-      background-color: #f8fafc;
-    }
+    white-space: nowrap; // Evita che i titoli vadano a capo rompendo il layout
   }
 
   td {
     padding: 1rem;
     border-bottom: 1px solid $border-color;
   }
-
-  tr:hover {
-    background-color: #f8fafc;
-  }
 }
 
-// Paginazione
+// Paginazione Responsive
 .pagination-controls {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; // Colonna su mobile
+  gap: 1rem;
   align-items: center;
   padding-top: 1rem;
   border-top: 1px solid $border-color;
 
-  button {
-    padding: 0.5rem 1rem;
-    border: 1px solid $primary;
-    background: $white;
-    color: $primary;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s;
-
-    &:disabled {
-      border-color: $border-color;
-      color: #94a3b8;
-      cursor: not-allowed;
-    }
-
-    &:not(:disabled):hover {
-      background: $primary;
-      color: $white;
-    }
+  @media (min-width: 600px) {
+    flex-direction: row; // Riga su tablet/desktop
+    justify-content: space-between;
   }
 }
 
@@ -183,5 +166,44 @@ body {
     border-radius: 4px;
     font-size: 0.75rem;
     border: 1px solid #bae6fd;
+  }
+}
+
+.sortable-header {
+  cursor: pointer;
+  transition: all 0.2s;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+  }
+
+  i.bi {
+    margin-left: 8px;
+    font-size: 0.85rem;
+    color: $primary;
+    transition: opacity 0.2s;
+    opacity: 0;
+  }
+
+  // Icona visibile se attiva
+  &.active-sort {
+    color: $primary;
+    background-color: #f8fafc;
+    i.bi {
+      opacity: 1;
+    }
+  }
+
+  // Hover: mostra icona "ghost"
+  &:hover:not(.active-sort) {
+    background-color: #f8fafc;
+    i.bi {
+      opacity: 0.3;
+      // Usiamo l'icona su/giù neutra per l'hover
+      &::before {
+        content: '\F128';
+      }
+    }
   }
 }

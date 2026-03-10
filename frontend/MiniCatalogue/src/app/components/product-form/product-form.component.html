@@ -1,5 +1,4 @@
 <div class="form-container">
-  <!-- Loader di caricamento -->
   @if (loading()) {
     <div class="loader-overlay">Salvataggio in corso...</div>
   }
@@ -18,8 +17,8 @@
       }
     </div>
 
-    <div class="row" style="display: flex; gap: 15px">
-      <div class="field" style="flex: 1">
+    <div class="form-row">
+      <div class="field">
         <label>Prezzo (€) *</label>
         <input
           type="number"
@@ -30,11 +29,11 @@
           "
         />
         @if (productForm.get('price')?.invalid && productForm.get('price')?.touched) {
-          <small class="error-text">Il prezzo deve essere maggiore o uguale a 0.</small>
+          <small class="error-text">Il prezzo deve essere ≥ 0.</small>
         }
       </div>
 
-      <div class="field" style="flex: 1">
+      <div class="field">
         <label>Categoria</label>
         <select formControlName="categoryId">
           <option [ngValue]="null">Seleziona...</option>

@@ -2,31 +2,32 @@
   <h2>Gestione Categorie</h2>
 
   <!-- Form di Creazione Rapida -->
-  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" style="margin-bottom: 30px">
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
     <div class="field">
       <label>Nuova Categoria *</label>
-      <div style="display: flex; gap: 10px">
-        <input
-          type="text"
-          formControlName="name"
-          placeholder="Es: Elettronica, Libri..."
-          [class.is-invalid]="
-            categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched
-          "
-          style="flex: 1"
-        />
+      <div class="input-group-container">
+        <div class="input-wrapper">
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="Es: Elettronica, Libri..."
+            [class.is-invalid]="
+              categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched
+            "
+          />
+
+          @if (error()) {
+            <small class="error-text">{{ error() }}</small>
+          }
+          @if (categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched) {
+            <small class="error-text">Inserire almeno 3 caratteri.</small>
+          }
+        </div>
+
         <button type="submit" class="btn-primary" [disabled]="categoryForm.invalid || loading()">
           {{ loading() ? '...' : 'Aggiungi' }}
         </button>
       </div>
-
-      @if (error()) {
-        <div class="error-text">{{ error() }}</div>
-      }
-
-      @if (categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched) {
-        <small class="error-text">Inserire almeno 3 caratteri.</small>
-      }
     </div>
   </form>
 
@@ -35,7 +36,7 @@
     <table>
       <thead>
         <tr>
-          <th style="width: 100px">ID</th>
+          <th style="width: 80px">ID</th>
           <th>Nome</th>
         </tr>
       </thead>
