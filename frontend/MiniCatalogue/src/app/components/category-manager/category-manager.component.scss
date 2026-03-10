@@ -115,8 +115,9 @@ $error-color: #dc3545;
 
     table {
       width: 100%;
-      border-collapse: collapse;
-      min-width: 400px;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
 
       th,
       td {
@@ -139,6 +140,21 @@ $error-color: #dc3545;
         display: inline-block;
         min-width: 24px;
         text-align: center;
+      }
+
+      .col-name {
+        width: auto;
+      }
+      .col-id {
+        width: 80px;
+      }
+
+      .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        max-width: 100%;
       }
     }
   }

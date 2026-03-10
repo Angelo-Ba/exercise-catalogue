@@ -68,8 +68,9 @@ $white: #ffffff;
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  min-width: 600px; // Evita che la tabella si schiacci troppo su mobile
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed; // Evita che la tabella si schiacci troppo su mobile
 
   th {
     text-align: left;
@@ -77,12 +78,39 @@ table {
     padding: 1rem;
     font-weight: 600;
     border-bottom: 2px solid $border-color;
-    white-space: nowrap; // Evita che i titoli vadano a capo rompendo il layout
+    white-space: nowrap;
   }
 
   td {
     padding: 1rem;
     border-bottom: 1px solid $border-color;
+  }
+
+  .col-name {
+    width: 200px;
+  }
+  .col-cat {
+    width: 150px;
+  }
+  .col-price {
+    width: 100px;
+  }
+  .col-tags {
+    width: 200px;
+  }
+  .col-date {
+    width: 150px;
+  }
+  .col-actions {
+    width: 100px;
+    text-align: center;
+  }
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
   }
 }
 

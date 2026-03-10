@@ -36,8 +36,8 @@
     <table>
       <thead>
         <tr>
-          <th style="width: 80px">ID</th>
-          <th>Nome</th>
+          <th class="col-id">Numero #</th>
+          <th class="col-name">Nome</th>
         </tr>
       </thead>
       <tbody>
@@ -47,7 +47,9 @@
               <span class="tag-pill">{{ i + 1 }}</span>
             </td>
             <td>
-              <strong>{{ cat.name }}</strong>
+              <span class="truncate" [title]="cat.name">
+                <strong>{{ cat.name }}</strong>
+              </span>
             </td>
           </tr>
         } @empty {
